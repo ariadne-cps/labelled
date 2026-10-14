@@ -20,6 +20,11 @@ class TestLabelledSet {
     }
 
     Void test_set() const {
+        ARIADNE_TEST_FAIL(LabelledSet<RealBox>(
+            RealSpace({x,y}),
+            RealBox({{0.1_dec,0.5_dec},{-2.3_dec,1},{0,3}})
+        ));
+
         LabelledSet<RealBox> set(RealSpace({x,y,z}),RealBox({{0.1_dec,0.5_dec},{-2.3_dec,1},{0,3}}));
         ARIADNE_TEST_EQUALS(set.dimension(),3);
         ARIADNE_TEST_EQUAL(set.space(),RealSpace({x,y,z}));
