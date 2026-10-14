@@ -1,4 +1,4 @@
-if(NOT TARGET kernel)
-    ensure_submodule_initialized(kernel)
-    add_subdirectory(kernel)
+if(NOT TARGET symbolic)
+    ensure_submodule_initialized(symbolic)
+    add_subdirectory(symbolic)
 endif()

@@ -6,7 +6,7 @@
 [![Coverage Status](https://github.com/ariadne-cps/labelling/actions/workflows/coverage.yml/badge.svg)](https://github.com/ariadne-cps/labelling/actions/workflows/coverage.yml)
 [![codecov](https://codecov.io/gh/ariadne-cps/labelling/branch/main/graph/badge.svg)](https://codecov.io/gh/ariadne-cps/labelling)
 
-Ariadne Labelling is the standalone C++20 labelled-geometry and labelled-drawing layer used by Ariadne. It provides labelled points, curves, sets, figures and variable-aware drawing facilities on top of Ariadne Kernel.
+Ariadne Labelling is the standalone C++20 labelled-geometry and labelled-drawing layer used by Ariadne. It provides labelled points, curves, sets, figures and variable-aware drawing facilities on top of Ariadne Symbolic.
 
 ## Layout
 
@@ -18,10 +18,10 @@ The umbrella header is `include/ariadne-labelling.hpp`.
 
 Labelling currently depends directly on:
 
-- [ariadne-cps/kernel](https://github.com/ariadne-cps/kernel), included as a Git submodule.
+- [ariadne-cps/symbolic](https://github.com/ariadne-cps/symbolic), included as a Git submodule.
 - [ariadne-cps/configuration](https://github.com/ariadne-cps/configuration), used for shared build configuration.
 
-Kernel supplies the symbolic, geometry and drawing facilities used by Labelling. This dependency is intentionally temporary while the Symbolic module is being separated.
+Symbolic supplies the symbolic, geometry and drawing facilities used by Labelling. This dependency is intentionally temporary while the Symbolic module is being separated.
 
 ## Build
 
@@ -35,7 +35,7 @@ ctest --test-dir build --output-on-failure
 
 ## Python bindings
 
-When a compatible Python development environment is available, the standalone build produces `pyariadne` from the Kernel bindings plus the Labelling bindings.
+When a compatible Python development environment is available, the standalone build produces `pyariadne` from the Symbolic bindings plus the Labelling bindings.
 
 ## License
 
