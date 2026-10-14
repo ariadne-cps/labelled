@@ -21,7 +21,7 @@ Labelling currently depends directly on:
 - [ariadne-cps/symbolic](https://github.com/ariadne-cps/symbolic), included as a Git submodule.
 - [ariadne-cps/configuration](https://github.com/ariadne-cps/configuration), used for shared build configuration.
 
-Symbolic supplies the symbolic, geometry and drawing facilities used by Labelling. This dependency is intentionally temporary while the Symbolic module is being separated.
+Symbolic supplies the symbolic layer directly and the Kernel geometry and drawing facilities transitively.
 
 ## Build
 
