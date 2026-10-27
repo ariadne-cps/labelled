@@ -64,6 +64,15 @@ class TestLabelledFigure {
             {FloatDPApproximation(0.0,dp),FloatDPApproximation(1.0,dp)},
             {FloatDPApproximation(-1.0,dp),FloatDPApproximation(1.0,dp)}
         });
+        // A one-dimensional box violates the public two-axis precondition.
+        // Exercise the rejection, rather than fabricating an impossible state.
+        ApproximateBoxType one_dimensional_bounds({
+            {FloatDPApproximation(0.0,dp),FloatDPApproximation(1.0,dp)}
+        });
+        ARIADNE_TEST_FAIL(LabelledFigure(Variables2d(x,y),
+            VariablesBox<ApproximateIntervalType>(
+                RealSpace({x}),one_dimensional_bounds)))
+
         ARIADNE_TEST_FAIL(LabelledFigure(Variables2d(x,z),
             VariablesBox<ApproximateIntervalType>(RealSpace({x,y}),bounds)))
 
