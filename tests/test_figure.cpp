@@ -169,8 +169,13 @@ class TestLabelledFigure {
         ARIADNE_TEST_EQUALS(static_cast<unsigned int>(header[1]),80u)
         ARIADNE_TEST_EQUALS(static_cast<unsigned int>(header[2]),78u)
         ARIADNE_TEST_EQUALS(static_cast<unsigned int>(header[3]),71u)
-        ARIADNE_TEST_EQUALS(png_dimension(header,16u),width)
-        ARIADNE_TEST_EQUALS(png_dimension(header,20u),height)
+        // The size passed to Figure::write is the plot area. Rendering
+        // adds 160+10 pixels for horizontal margins (axis labels) and
+        // 10+40 pixels for vertical margins before writing the PNG.
+        constexpr unsigned int horizontal_margins=160u+10u;
+        constexpr unsigned int vertical_margins=10u+40u;
+        ARIADNE_TEST_EQUALS(png_dimension(header,16u),width+horizontal_margins)
+        ARIADNE_TEST_EQUALS(png_dimension(header,20u),height+vertical_margins)
         image.close();
         ARIADNE_TEST_EQUALS(std::remove(filename),0)
     }
