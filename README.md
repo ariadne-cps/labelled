@@ -19,9 +19,10 @@ The umbrella header is `include/ariadne-labelling.hpp`.
 Labelling depends directly on:
 
 - [ariadne-cps/symbolic](https://github.com/ariadne-cps/symbolic), included as a Git submodule.
+- [ariadne-cps/drawing](https://github.com/ariadne-cps/drawing), included as a Git submodule, for geometric drawing and rendering.
 - [ariadne-cps/configuration](https://github.com/ariadne-cps/configuration), used for shared build configuration.
 
-Symbolic supplies the symbolic layer directly and the Ariadne Kernel geometry and drawing facilities transitively, together with their external dependencies.
+Symbolic supplies the symbolic layer and transitively Kernel; Drawing supplies the drawing adapters and transitively Rendering. Shared transitive dependencies must use consistent commits.
 
 ## Build
 
@@ -35,7 +36,7 @@ ctest --test-dir build --output-on-failure
 
 ## Python bindings
 
-When a compatible Python development environment is available, the standalone build produces `pyariadne` from the Symbolic bindings plus the Labelling bindings.
+When a compatible Python development environment is available, the standalone build produces and installs `pyariadne`, combining the Symbolic, Drawing, Rendering and Labelling bindings with their transitive dependencies.
 
 ## Contribution guidelines
 
