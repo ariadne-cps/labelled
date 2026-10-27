@@ -10,6 +10,8 @@
 
 namespace Ariadne {
 
+// Preserve the coordinate interval type used by the labelling API.
+using ApproximateDoubleInterval = Interval<ApproximateDouble>;
 using ApproximateDoubleVariableInterval = VariableInterval<ApproximateDouble>;
 using DoubleVariableInterval = VariableInterval<Double>;
 

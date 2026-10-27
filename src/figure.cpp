@@ -125,8 +125,8 @@ Void LabelledFigure::set_bounding_box(const VariablesBox<ApproximateIntervalType
     _data->synchronise();
 }
 
-GraphicsProperties& LabelledFigure::properties() { return _data->figure.properties(); }
-GraphicsProperties const& LabelledFigure::properties() const { return _data->figure.properties(); }
+RenderingProperties& LabelledFigure::properties() { return _data->figure.properties(); }
+RenderingProperties const& LabelledFigure::properties() const { return _data->figure.properties(); }
 
 LabelledFigure& LabelledFigure::draw(const LabelledDrawable2dInterface& shape) {
     LabelledDrawableAdapter adapter(shape,_data->variables);
