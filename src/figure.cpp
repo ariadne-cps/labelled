@@ -6,18 +6,17 @@ namespace Ariadne {
 
 namespace {
 
-ApproximateIntervalType coordinate_interval(ApproximateDoubleInterval const& ivl) {
-    return ApproximateIntervalType(
-        FloatDPApproximation(cast_exact(ivl.lower_bound()),dp),
-        FloatDPApproximation(cast_exact(ivl.upper_bound()),dp));
+RenderingInterval coordinate_interval(ApproximateDoubleInterval const& ivl) {
+    return RenderingInterval(numeric_cast<double>(ivl.lower_bound()),
+                             numeric_cast<double>(ivl.upper_bound()));
 }
 
 Bool has_axis_bounds(Variables2d const& vars, Map<RealVariable,ApproximateDoubleInterval> const& bounds) {
     return bounds.find(vars.x())!=bounds.end() && bounds.find(vars.y())!=bounds.end();
 }
 
-ApproximateBoxType coordinate_box(Variables2d const& vars, Map<RealVariable,ApproximateDoubleInterval> const& bounds) {
-    return ApproximateBoxType({
+RenderingBox coordinate_box(Variables2d const& vars, Map<RealVariable,ApproximateDoubleInterval> const& bounds) {
+    return RenderingBox({
         coordinate_interval(bounds[vars.x()]),
         coordinate_interval(bounds[vars.y()])
     });
@@ -126,8 +125,8 @@ Void LabelledFigure::set_bounding_box(const VariablesBox<ApproximateIntervalType
     _data->synchronise();
 }
 
-RenderingProperties& LabelledFigure::properties() { return _data->figure.properties(); }
-RenderingProperties const& LabelledFigure::properties() const { return _data->figure.properties(); }
+GraphicsProperties& LabelledFigure::properties() { return _data->figure.properties(); }
+GraphicsProperties const& LabelledFigure::properties() const { return _data->figure.properties(); }
 
 LabelledFigure& LabelledFigure::draw(const LabelledDrawable2dInterface& shape) {
     LabelledDrawableAdapter adapter(shape,_data->variables);

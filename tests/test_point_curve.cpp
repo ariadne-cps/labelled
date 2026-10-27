@@ -29,8 +29,9 @@
 #include "geometry/curve.hpp"
 #include "symbolic/space.hpp"
 #include "symbolic/assignment.hpp"
-#include "drawing/figure.hpp"
-#include "drawing/null_graphics.hpp"
+#include "drawing/point_draw.hpp"
+#include "drawing/geometry_draw.hpp"
+#include "rendering/null_rendering.hpp"
 
 #include "macro/testing.hpp"
 
