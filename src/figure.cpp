@@ -22,6 +22,19 @@ RenderingBox coordinate_box(Variables2d const& vars, Map<RealVariable,Approximat
     });
 }
 
+// Convert the mathematical bounds explicitly: the interval value types are
+// constructible, but maps with different value types are not implicitly convertible.
+Map<RealVariable,ApproximateDoubleInterval> coordinate_bounds(
+    VariablesBox<ApproximateIntervalType> const& box) {
+    Map<RealVariable,ApproximateDoubleInterval> bounds;
+    for (auto const& [variable, interval] : box.bounds()) {
+        bounds.insert(variable,ApproximateDoubleInterval(
+            numeric_cast<double>(interval.lower_bound()),
+            numeric_cast<double>(interval.upper_bound())));
+    }
+    return bounds;
+}
+
 class LabelledDrawableAdapter final : public Drawable2dInterface {
   public:
     LabelledDrawableAdapter(LabelledDrawable2dInterface const& shape, Variables2d const& variables)
@@ -99,7 +112,7 @@ LabelledFigure::LabelledFigure(const Axes2d& axes)
 LabelledFigure::LabelledFigure(const Variables2d& vars, const VariablesBox<ApproximateIntervalType>& bbx)
     : _data(nullptr) {
     ARIADNE_PRECONDITION_MSG(bbx.bounds().size()>=2,"The box must be at least two-dimensional.")
-    Map<RealVariable,ApproximateDoubleInterval> bounds=VariablesBox<ApproximateDoubleInterval>(bbx).bounds();
+    Map<RealVariable,ApproximateDoubleInterval> bounds=coordinate_bounds(bbx);
     ARIADNE_PRECONDITION_MSG(has_axis_bounds(vars,bounds),"The box must contain bounds for both axis variables.")
     _data=new Data(vars,bounds);
 }
@@ -121,7 +134,7 @@ Void LabelledFigure::set_bounds(const Map<RealVariable,ApproximateDoubleInterval
 }
 
 Void LabelledFigure::set_bounding_box(const VariablesBox<ApproximateIntervalType>& bx) {
-    _data->bounds=VariablesBox<ApproximateDoubleInterval>(bx).bounds();
+    _data->bounds=coordinate_bounds(bx);
     _data->synchronise();
 }
 
