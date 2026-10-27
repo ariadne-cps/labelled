@@ -44,7 +44,7 @@ void export_labelling(pybind11::module& module) {
     pybind11::class_<LabelledFigure> labelled_figure_class(module,"LabelledFigure");
     labelled_figure_class.def(pybind11::init<Axes2d>());
     labelled_figure_class.def("set_axes",(Void(LabelledFigure::*)(const Axes2d&)) &LabelledFigure::set_axes, reference_internal);
-    labelled_figure_class.def("properties",(GraphicsProperties&(LabelledFigure::*)())&LabelledFigure::properties, reference_internal);
+    labelled_figure_class.def("properties",(RenderingProperties&(LabelledFigure::*)())&LabelledFigure::properties, reference_internal);
     labelled_figure_class.def("draw",(LabelledFigure&(LabelledFigure::*)(const LabelledDrawable2dInterface&))&LabelledFigure::draw, reference_internal);
     labelled_figure_class.def("draw", [](LabelledFigure& fig, LabelledRealBox const& box) -> LabelledFigure& {
         LabelledDrawableWrapper<RealBox> wrapper(box);

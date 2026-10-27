@@ -10,6 +10,7 @@ target_include_directories(pyariadne-labelling-submodule-obj PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
     "${PYTHON_COMMON_SOURCE_DIR}/include"
     $<TARGET_PROPERTY:pyariadne-symbolic,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:pyariadne-drawing,INTERFACE_INCLUDE_DIRECTORIES>
 )
 target_link_libraries(pyariadne-labelling-submodule-obj PRIVATE
     pyariadne-python-common
@@ -25,9 +26,11 @@ target_sources(pyariadne-labelling INTERFACE
 target_include_directories(pyariadne-labelling INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<TARGET_PROPERTY:pyariadne-symbolic,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:pyariadne-drawing,INTERFACE_INCLUDE_DIRECTORIES>
 )
 target_link_libraries(pyariadne-labelling INTERFACE
     pyariadne-symbolic
+    pyariadne-drawing
 )
 
 ariadne_add_python_module(

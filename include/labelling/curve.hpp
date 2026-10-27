@@ -18,7 +18,6 @@ class LabelledInterpolatedCurve
 
     LabelledInterpolatedCurve* labelled_clone() const override;
 
-    using InterpolatedCurve::draw;
     Void draw(CanvasInterface&, const Variables2d&) const override;
 };
 

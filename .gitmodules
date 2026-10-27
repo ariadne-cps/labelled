@@ -4,3 +4,6 @@
 [submodule "ss/symbolic"]
 	path = ss/symbolic
 	url = https://github.com/ariadne-cps/symbolic
+[submodule "ss/drawing"]
+	path = ss/drawing
+	url = https://github.com/ariadne-cps/drawing

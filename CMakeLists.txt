@@ -21,6 +21,12 @@ if(EXISTS "${PROJECT_SOURCE_DIR}/.git")
         CHAINS
             "configuration"
             "symbolic|configuration"
+            "drawing|configuration"
+    )
+    require_same_dependency_commit(Kernel
+        CHAINS
+            "symbolic|kernel"
+            "drawing|kernel"
     )
 endif()
 
@@ -35,7 +41,7 @@ target_include_directories(labelling INTERFACE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include/ariadne-labelling>
 )
-target_link_libraries(labelling INTERFACE symbolic)
+target_link_libraries(labelling INTERFACE symbolic drawing)
 
 add_subdirectory(src)
 target_link_libraries(LABELLING_SRC PRIVATE labelling)

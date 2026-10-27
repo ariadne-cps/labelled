@@ -13,10 +13,24 @@ if(Python3_FOUND)
         message(FATAL_ERROR "The Symbolic Python binding target is required to build pyariadne-labelling.")
     endif()
 
+    if(NOT TARGET pyariadne-drawing)
+        message(FATAL_ERROR "The Drawing Python binding target is required to build pyariadne-labelling.")
+    endif()
+
     add_subdirectory(bindings)
 
     if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
         ariadne_finalize_python_module(NAME labelling)
+
+        # Install the combined extension, not its INTERFACE contributors.
+        if(WIN32)
+            set(_python_install_dir "Lib/site-packages")
+        else()
+            set(_python_install_dir "lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages")
+        endif()
+        set(PYTHON_BINDINGS_INSTALL_DIR "${_python_install_dir}"
+            CACHE STRING "Install destination for Python targets relative to the prefix")
+        install(TARGETS pyariadne DESTINATION "${PYTHON_BINDINGS_INSTALL_DIR}")
 
         add_subdirectory(tests)
         add_dependencies(bindings pyariadne)

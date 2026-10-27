@@ -12,7 +12,7 @@ LabelledInterpolatedCurve* LabelledInterpolatedCurve::labelled_clone() const {
 
 Void LabelledInterpolatedCurve::draw(CanvasInterface& c, const Variables2d& v) const {
     Projection2d proj=projection(this->space(),v);
-    InterpolatedCurve::draw(c,proj);
+    Ariadne::draw(c,proj,static_cast<InterpolatedCurve const&>(*this));
 }
 
 } // namespace Ariadne

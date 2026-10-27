@@ -21,7 +21,7 @@ template<class X> LabelledPoint<X>* LabelledPoint<X>::labelled_clone() const {
 
 template<class X> Void LabelledPoint<X>::draw(CanvasInterface& canvas, const Variables2d& axes) const {
     Projection2d proj=projection(this->space(),axes);
-    Point<X>::draw(canvas,proj);
+    Ariadne::draw(canvas,proj,static_cast<Point<X> const&>(*this));
 }
 
 } // namespace Ariadne

@@ -1,7 +1,7 @@
 #ifndef ARIADNE_LABELLING_FIGURE_HPP
 #define ARIADNE_LABELLING_FIGURE_HPP
 
-#include "drawing/figure.hpp"
+#include "ariadne-drawing.hpp"
 #include "labelling/graphics_interface.hpp"
 #include "symbolic/variable.hpp"
 #include "symbolic/space.hpp"
@@ -42,8 +42,8 @@ class LabelledFigure {
     Void set_bounds(const Map<RealVariable,ApproximateDoubleInterval>& b);
     Void set_bounding_box(VariablesBox<ApproximateIntervalType> const& bnds);
 
-    GraphicsProperties& properties();
-    GraphicsProperties const& properties() const;
+    RenderingProperties& properties();
+    RenderingProperties const& properties() const;
 
     LabelledFigure& draw(const LabelledDrawable2dInterface& shape);
     LabelledFigure& clear();
@@ -79,7 +79,7 @@ template<class S> class LabelledDrawableWrapper : public LabelledDrawable2dInter
     Void draw(CanvasInterface& cnvs, Variables2d const& vars) const override {
         Projection2d prj(this->_lset.euclidean_set().dimension(),
                          this->_lset.space()[vars.x()],this->_lset.space()[vars.y()]);
-        this->_lset.euclidean_set().draw(cnvs,prj);
+        Ariadne::draw(cnvs,prj,this->_lset.euclidean_set());
     }
 };
 

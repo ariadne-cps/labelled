@@ -29,7 +29,6 @@ class LabelledPoint : public LabelledDrawable2dInterface, public Point<X>, publi
     LabelledPoint(const LabelledPoint<Y>& pt, PRS... prs) : Point<X>(pt,prs...), Labelling(pt.space()) { }
 
     LabelledPoint* labelled_clone() const override;
-    using Point<X>::draw;
     Void draw(CanvasInterface&, const Variables2d&) const override;
 };
 
