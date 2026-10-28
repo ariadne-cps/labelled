@@ -19,9 +19,9 @@ The umbrella header is `include/ariadne-labelling.hpp`.
 
 Labelling depends directly on:
 
-- [ariadne-cps/expression-set](https://github.com/ariadne-cps/expression-set), Git submodule `ss/expression-set`, for labelled bounds, symbolic sets and the underlying Symbolic and Set modules.
-- [ariadne-cps/drawing](https://github.com/ariadne-cps/drawing), Git submodule `ss/drawing`, for geometric drawing and rendering.
-- [ariadne-cps/configuration](https://github.com/ariadne-cps/configuration), Git submodule `ss/configuration`, for shared CMake infrastructure.
+- [ariadne-cps/expression-set](https://github.com/ariadne-cps/expression-set), Git submodule `ss/exp`, for labelled bounds, symbolic sets and the underlying Symbolic and Set modules.
+- [ariadne-cps/drawing](https://github.com/ariadne-cps/drawing), Git submodule `ss/dra`, for geometric drawing and rendering.
+- [ariadne-cps/configuration](https://github.com/ariadne-cps/configuration), Git submodule `ss/cfg`, for shared CMake infrastructure.
 
 Expression Set supplies Symbolic and Set transitively; Drawing supplies Paving, Rendering and Set transitively. The build checks that shared Configuration, Set and Function dependencies use consistent commits. Kernel is not a dependency.
 
