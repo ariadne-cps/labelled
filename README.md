@@ -7,7 +7,7 @@
 [![Coverage Status](https://github.com/ariadne-cps/labelling/actions/workflows/coverage.yml/badge.svg)](https://github.com/ariadne-cps/labelling/actions/workflows/coverage.yml)
 [![codecov](https://codecov.io/gh/ariadne-cps/labelling/branch/main/graph/badge.svg)](https://codecov.io/gh/ariadne-cps/labelling)
 
-Ariadne Labelling is the standalone C++20 labelled-geometry and labelled-drawing layer used by Ariadne. It provides labelled points, curves, sets, boxes, figures and variable-aware drawing facilities on top of Ariadne Symbolic.
+Ariadne Labelling is the standalone C++20 labelled-geometry and labelled-drawing layer used by Ariadne. It provides labelled points, curves, sets, boxes, figures and variable-aware drawing facilities on top of Ariadne Expression Set and Drawing.
 
 ## Layout
 
@@ -19,11 +19,11 @@ The umbrella header is `include/ariadne-labelling.hpp`.
 
 Labelling depends directly on:
 
-- [ariadne-cps/symbolic](https://github.com/ariadne-cps/symbolic), included as a Git submodule.
-- [ariadne-cps/drawing](https://github.com/ariadne-cps/drawing), included as a Git submodule, for geometric drawing and rendering.
-- [ariadne-cps/configuration](https://github.com/ariadne-cps/configuration), used for shared build configuration.
+- [ariadne-cps/expression-set](https://github.com/ariadne-cps/expression-set), Git submodule `ss/expression-set`, for labelled bounds, symbolic sets and the underlying Symbolic and Set modules.
+- [ariadne-cps/drawing](https://github.com/ariadne-cps/drawing), Git submodule `ss/drawing`, for geometric drawing and rendering.
+- [ariadne-cps/configuration](https://github.com/ariadne-cps/configuration), Git submodule `ss/configuration`, for shared CMake infrastructure.
 
-Symbolic supplies the symbolic layer and transitively Kernel; Drawing supplies the drawing adapters and transitively Rendering. Shared transitive dependencies must use consistent commits.
+Expression Set supplies Symbolic and Set transitively; Drawing supplies Paving, Rendering and Set transitively. The build checks that shared Configuration, Set and Function dependencies use consistent commits. Kernel is not a dependency.
 
 ## Build
 
@@ -37,7 +37,7 @@ ctest --test-dir build --output-on-failure
 
 ## Python bindings
 
-When a compatible Python development environment is available, the standalone build produces and installs `pyariadne`, combining the Symbolic, Drawing, Rendering and Labelling bindings with their transitive dependencies.
+When a compatible Python development environment is available, the standalone build produces and installs `pyariadne`, combining the Expression Set, Drawing and Labelling bindings with their transitive dependencies, including Symbolic, Set, Paving and Rendering.
 
 ## Contribution guidelines
 

@@ -9,8 +9,8 @@ option(PYTHON_ENFORCE_TESTS "Enforce Python tests" OFF)
 if(Python3_FOUND)
     report_python_configuration_once()
 
-    if(NOT TARGET pyariadne-symbolic)
-        message(FATAL_ERROR "The Symbolic Python binding target is required to build pyariadne-labelling.")
+    if(NOT TARGET pyariadne-expression_set)
+        message(FATAL_ERROR "The Expression Set Python binding target is required to build pyariadne-labelling.")
     endif()
 
     if(NOT TARGET pyariadne-drawing)

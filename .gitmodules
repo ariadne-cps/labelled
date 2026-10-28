@@ -1,9 +1,9 @@
 [submodule "ss/configuration"]
 	path = ss/configuration
 	url = https://github.com/ariadne-cps/configuration
-[submodule "ss/symbolic"]
-	path = ss/symbolic
-	url = https://github.com/ariadne-cps/symbolic
+[submodule "ss/expression-set"]
+	path = ss/expression-set
+	url = https://github.com/ariadne-cps/expression-set
 [submodule "ss/drawing"]
 	path = ss/drawing
 	url = https://github.com/ariadne-cps/drawing

@@ -7,7 +7,7 @@ void labelling_submodule(pybind11::module& module) {
 }
 
 #include "pybind11.hpp"
-#include "kernel-utilities.hpp"
+#include "function-utilities.hpp"
 
 #include "geometry/box.hpp"
 #include "labelling/figure.hpp"

@@ -5,7 +5,7 @@
 #include "labelling/graphics_interface.hpp"
 #include "symbolic/variable.hpp"
 #include "symbolic/space.hpp"
-#include "symbolic/expression_set.hpp"
+#include "expression-set/expression_set.hpp"
 #include "labelling/set.hpp"
 
 namespace Ariadne {

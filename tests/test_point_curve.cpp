@@ -26,7 +26,7 @@
 #include "geometry/point.hpp"
 #include "labelling/point.hpp"
 #include "labelling/curve.hpp"
-#include "geometry/curve.hpp"
+#include "set/curve.hpp"
 #include "symbolic/space.hpp"
 #include "symbolic/assignment.hpp"
 #include "drawing/point_draw.hpp"

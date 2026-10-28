@@ -1,6 +1,6 @@
-if(NOT TARGET symbolic)
-    ensure_submodule_initialized(symbolic)
-    add_subdirectory(symbolic)
+if(NOT TARGET expression_set)
+    ensure_submodule_initialized(expression-set)
+    add_subdirectory(expression-set)
 endif()
 
 if(NOT TARGET drawing)

@@ -1,7 +1,7 @@
 #ifndef ARIADNE_LABELLING_SET_HPP
 #define ARIADNE_LABELLING_SET_HPP
 
-#include "symbolic/expression_set.hpp"
+#include "expression-set/expression_set.hpp"
 #include "labelling/labelling.hpp"
 #include "labelling/graphics_interface.hpp"
 

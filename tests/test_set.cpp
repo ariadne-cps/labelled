@@ -2,7 +2,7 @@
 #include "numeric/numeric.hpp"
 #include "geometry/point.hpp"
 #include "geometry/box.hpp"
-#include "symbolic/expression_set.hpp"
+#include "expression-set/expression_set.hpp"
 #include "symbolic/space.hpp"
 #include "labelling/set.hpp"
 

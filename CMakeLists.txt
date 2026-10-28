@@ -20,13 +20,21 @@ if(EXISTS "${PROJECT_SOURCE_DIR}/.git")
     require_same_dependency_commit(Configuration
         CHAINS
             "configuration"
-            "symbolic|configuration"
+            "expression-set|configuration"
+            "expression-set|symbolic|configuration"
+            "expression-set|set|configuration"
             "drawing|configuration"
+            "drawing|paving|configuration"
     )
-    require_same_dependency_commit(Kernel
+    require_same_dependency_commit(Set
         CHAINS
-            "symbolic|kernel"
-            "drawing|kernel"
+            "expression-set|set"
+            "drawing|paving|set"
+    )
+    require_same_dependency_commit(Function
+        CHAINS
+            "expression-set|symbolic|function"
+            "expression-set|set|constraint-solving|nonlinear-programming|function"
     )
 endif()
 
@@ -41,7 +49,7 @@ target_include_directories(labelling INTERFACE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include/ariadne-labelling>
 )
-target_link_libraries(labelling INTERFACE symbolic drawing)
+target_link_libraries(labelling INTERFACE expression_set drawing)
 
 add_subdirectory(src)
 target_link_libraries(LABELLING_SRC PRIVATE labelling)
