@@ -1,21 +1,21 @@
 #include "pybind11.hpp"
 
-void export_labelling(pybind11::module& module);
+void export_labelled(pybind11::module& module);
 
-void labelling_submodule(pybind11::module& module) {
-    export_labelling(module);
+void labelled_submodule(pybind11::module& module) {
+    export_labelled(module);
 }
 
 #include "pybind11.hpp"
 #include "function-utilities.hpp"
 
 #include "geometry/box.hpp"
-#include "labelling/figure.hpp"
-#include "labelling/set.hpp"
+#include "labelled/figure.hpp"
+#include "labelled/set.hpp"
 
 using namespace Ariadne;
 
-void export_labelling(pybind11::module& module) {
+void export_labelled(pybind11::module& module) {
     static constexpr auto reference_internal = pybind11::return_value_policy::reference_internal;
 
     pybind11::class_<Variables2d> variables2d_class(module,"Variables2d");

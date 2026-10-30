@@ -1,10 +1,10 @@
-#include "labelling/curve.hpp"
-#include "labelling/figure.hpp"
+#include "labelled/curve.hpp"
+#include "labelled/figure.hpp"
 
 namespace Ariadne {
 
 LabelledInterpolatedCurve::LabelledInterpolatedCurve(const PointType& pt)
-    : InterpolatedCurve(CurveInterface::PointType(pt)), Labelling(pt.space()) { }
+    : InterpolatedCurve(CurveInterface::PointType(pt)), Labelled(pt.space()) { }
 
 LabelledInterpolatedCurve* LabelledInterpolatedCurve::labelled_clone() const {
     return new LabelledInterpolatedCurve(*this);

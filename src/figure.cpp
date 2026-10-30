@@ -1,4 +1,4 @@
-#include "labelling/figure.hpp"
+#include "labelled/figure.hpp"
 
 #include <memory>
 

@@ -73,12 +73,12 @@ jobs:
       working-directory: ${{ runner.workspace }}/build
       run: ctest -L python -V --output-on-failure
 
-    - name: Install Ariadne Labelling
+    - name: Install Ariadne Labelled
       if: matrix.build_type == 'Release'
       working-directory: ${{ runner.workspace }}/build
       run: cmake --install . --prefix ${{ runner.workspace }}/install
 
-    - name: Check Python Labelling Tutorial
+    - name: Check Python Labelled Tutorial
       if: matrix.build_type == 'Release'
       working-directory: ${{ github.workspace }}/python/tutorials
       env:
@@ -87,22 +87,22 @@ jobs:
         DYLD_LIBRARY_PATH: ${{ runner.workspace }}/install/lib
       run: |
         python -c "import os, pathlib, pyariadne; p=pathlib.Path(pyariadne.__file__).resolve(); root=pathlib.Path(os.environ['PYTHONPATH']).resolve(); assert p.is_relative_to(root), (p, root)"
-        python tutorial_labelling.py
+        python tutorial_labelled.py
 
 
-    - name: Prepare C++ Labelling Tutorial
+    - name: Prepare C++ Labelled Tutorial
       if: matrix.build_type == 'Release'
-      run: cmake -E copy_directory $GITHUB_WORKSPACE/tutorials/tutorial_labelling ${{ runner.workspace }}/tutorial_labelling
+      run: cmake -E copy_directory $GITHUB_WORKSPACE/tutorials/tutorial_labelled ${{ runner.workspace }}/tutorial_labelled
 
-    - name: Check C++ Labelling Tutorial
+    - name: Check C++ Labelled Tutorial
       if: matrix.build_type == 'Release'
-      working-directory: ${{ runner.workspace }}/tutorial_labelling
+      working-directory: ${{ runner.workspace }}/tutorial_labelled
       run: |
         cmake -S . -B build -DCMAKE_PREFIX_PATH=${{ runner.workspace }}/install -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_CXX_COMPILER_LAUNCHER=sccache -G Ninja
         cmake --build build --parallel $NPROC
         export LD_LIBRARY_PATH=${{ runner.workspace }}/install/lib:${LD_LIBRARY_PATH:-}
         export DYLD_LIBRARY_PATH=${{ runner.workspace }}/install/lib:${DYLD_LIBRARY_PATH:-}
-        ./build/tutorial_labelling
+        ./build/tutorial_labelled
 
 
     - name: Verify Uninstallation

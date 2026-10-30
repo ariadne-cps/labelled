@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "ariadne-labelling.hpp"
+#include "ariadne-labelled.hpp"
 
 using namespace Ariadne;
 
@@ -23,7 +23,7 @@ int main() {
           .set_fill_opacity(0.40)
           .set_line_width(2.0);
     figure << region;
-    figure.write("tutorial_labelling");
+    figure.write("tutorial_labelled");
 
     std::cout << "space: " << region.space() << "\n";
     std::cout << "dimension: " << region.dimension() << "\n";

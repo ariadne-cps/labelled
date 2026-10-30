@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(Labelling VERSION 1.0)
+project(Labelled VERSION 1.0)
 
 option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
 option(BUILD_PYTHON_BINDINGS "Build Python bindings" ON)
@@ -44,30 +44,30 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_subdirectory(ss)
 
-add_library(labelling INTERFACE)
-target_include_directories(labelling INTERFACE
+add_library(labelled INTERFACE)
+target_include_directories(labelled INTERFACE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include/ariadne-labelling>
+    $<INSTALL_INTERFACE:include/ariadne-labelled>
 )
-target_link_libraries(labelling INTERFACE expression_set drawing)
+target_link_libraries(labelled INTERFACE expression_set drawing)
 
 add_subdirectory(src)
-target_link_libraries(LABELLING_SRC PRIVATE labelling)
+target_link_libraries(LABELLED_SRC PRIVATE labelled)
 
 ariadne_register_public_headers(
-    TARGET labelling
-    DIRECTORIES "${PROJECT_SOURCE_DIR}/include/labelling"
-    FILES "${PROJECT_SOURCE_DIR}/include/ariadne-labelling.hpp"
+    TARGET labelled
+    DIRECTORIES "${PROJECT_SOURCE_DIR}/include/labelled"
+    FILES "${PROJECT_SOURCE_DIR}/include/ariadne-labelled.hpp"
 )
 
 setup_project_library(
-    TARGET ariadne-labelling
-    OBJECTS LABELLING_SRC
-    LINK_LIBRARIES labelling
+    TARGET ariadne-labelled
+    OBJECTS LABELLED_SRC
+    LINK_LIBRARIES labelled
 )
 
 setup_standalone_project_tests(
-    TARGET ariadne-labelling
+    TARGET ariadne-labelled
     TEST_DIRECTORY tests
     TEST_TARGET tests
     SOURCES
@@ -81,7 +81,7 @@ endif()
 
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
     ariadne_install_dependency_bundle(
-        TARGET labelling
-        DESTINATION include/ariadne-labelling
+        TARGET labelled
+        DESTINATION include/ariadne-labelled
     )
 endif()

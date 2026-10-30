@@ -1,25 +1,25 @@
-#ifndef ARIADNE_LABELLING_SET_HPP
-#define ARIADNE_LABELLING_SET_HPP
+#ifndef ARIADNE_LABELLED_SET_HPP
+#define ARIADNE_LABELLED_SET_HPP
 
 #include "expression-set/expression_set.hpp"
-#include "labelling/labelling.hpp"
-#include "labelling/graphics_interface.hpp"
+#include "labelled/labelled.hpp"
+#include "labelled/graphics_interface.hpp"
 
 namespace Ariadne {
 
-//! \brief A set formed by labelling the variables of a Euclidean set of type \a S.
-template<class S> class LabelledSet : public Labelling {
+//! \brief A set formed by labelled the variables of a Euclidean set of type \a S.
+template<class S> class LabelledSet : public Labelled {
     S _set;
   public:
     typedef S EuclideanSetType;
 
-    LabelledSet(const RealSpace& spc, const EuclideanSetType& set) : Labelling(spc), _set(set) { ARIADNE_ASSERT_MSG(spc.dimension()==set.dimension(),"spc="<<spc<<", set.dimension()="<<set.dimension()); }
+    LabelledSet(const RealSpace& spc, const EuclideanSetType& set) : Labelled(spc), _set(set) { ARIADNE_ASSERT_MSG(spc.dimension()==set.dimension(),"spc="<<spc<<", set.dimension()="<<set.dimension()); }
     template<class X> requires Same<S,Point<X>>
     explicit LabelledSet(VariablesPoint<X> const& point)
-        : Labelling(RealSpace(List<RealVariable>(point.variables()))), _set(point.euclidean_set(this->space())) { }
+        : Labelled(RealSpace(List<RealVariable>(point.variables()))), _set(point.euclidean_set(this->space())) { }
     template<class IVL> requires Same<S,Box<IVL>>
     explicit LabelledSet(VariablesBox<IVL> const& box)
-        : Labelling(RealSpace(List<RealVariable>(box.variables()))), _set(box.euclidean_set(this->space())) { }
+        : Labelled(RealSpace(List<RealVariable>(box.variables()))), _set(box.euclidean_set(this->space())) { }
     EuclideanSetType const& continuous_set() const { return this->_set; }
     EuclideanSetType const& euclidean_set() const { return this->_set; }
     EuclideanSetType& euclidean_set() { return this->_set; }

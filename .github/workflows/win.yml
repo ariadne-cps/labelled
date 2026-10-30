@@ -68,12 +68,12 @@ jobs:
       working-directory: ${{ runner.workspace }}/build
       run: ctest -L python --output-on-failure
 
-    - name: Install Ariadne Labelling
+    - name: Install Ariadne Labelled
       if: matrix.build_type == 'Release'
       working-directory: ${{ runner.workspace }}/build
       run: cmake --install . --prefix "${{ runner.workspace }}/install"
 
-    - name: Check Python Labelling Tutorial
+    - name: Check Python Labelled Tutorial
       if: matrix.build_type == 'Release'
       shell: pwsh
       working-directory: ${{ github.workspace }}/python/tutorials
@@ -81,23 +81,23 @@ jobs:
         $env:PYTHONPATH = "${{ runner.workspace }}\install\Lib\site-packages"
         $env:PATH = "${{ runner.workspace }}\install\bin;$env:PATH"
         python -c "import pyariadne; print(pyariadne.__file__)"
-        python tutorial_labelling.py
+        python tutorial_labelled.py
 
 
-    - name: Prepare C++ Labelling Tutorial
+    - name: Prepare C++ Labelled Tutorial
       if: matrix.build_type == 'Release'
       shell: pwsh
-      run: cmake -E copy_directory "$env:GITHUB_WORKSPACE/tutorials/tutorial_labelling" "${{ runner.workspace }}/tutorial_labelling"
+      run: cmake -E copy_directory "$env:GITHUB_WORKSPACE/tutorials/tutorial_labelled" "${{ runner.workspace }}/tutorial_labelled"
 
-    - name: Check C++ Labelling Tutorial
+    - name: Check C++ Labelled Tutorial
       if: matrix.build_type == 'Release'
       shell: pwsh
-      working-directory: ${{ runner.workspace }}/tutorial_labelling
+      working-directory: ${{ runner.workspace }}/tutorial_labelled
       run: |
         cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="${{ runner.workspace }}/install" -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache 
         cmake --build build --parallel
         $env:PATH = "${{ runner.workspace }}\install\bin;$env:PATH"
-        & ".\build\tutorial_labelling.exe"
+        & ".\build\tutorial_labelled.exe"
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 

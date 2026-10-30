@@ -8,9 +8,9 @@ set(UNIT_TESTS
 
 foreach(TEST ${UNIT_TESTS})
     add_executable(${TEST} ${TEST}.cpp)
-    target_link_libraries(${TEST} ariadne-labelling labelling)
+    target_link_libraries(${TEST} ariadne-labelled labelled)
     add_test(NAME ${TEST} COMMAND $<TARGET_FILE:${TEST}>)
-    set_property(TEST ${TEST} PROPERTY LABELS "labelling")
+    set_property(TEST ${TEST} PROPERTY LABELS "labelled")
 endforeach()
 
 add_custom_target(tests)

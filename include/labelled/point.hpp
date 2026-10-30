@@ -1,13 +1,13 @@
-#ifndef ARIADNE_LABELLING_POINT_HPP
-#define ARIADNE_LABELLING_POINT_HPP
+#ifndef ARIADNE_LABELLED_POINT_HPP
+#define ARIADNE_LABELLED_POINT_HPP
 
 #include "geometry/point.hpp"
 #include "symbolic/identifier.hpp"
 #include "symbolic/space.hpp"
 #include "symbolic/assignment.hpp"
-#include "labelling/labelling.hpp"
-#include "labelling/graphics_interface.hpp"
-#include "labelling/figure.hpp"
+#include "labelled/labelled.hpp"
+#include "labelled/graphics_interface.hpp"
+#include "labelled/figure.hpp"
 
 namespace Ariadne {
 
@@ -18,15 +18,15 @@ template<class IVL> class LabelledBox;
 using LabelledExactBoxType = LabelledBox<ExactIntervalType>;
 
 template<class X>
-class LabelledPoint : public LabelledDrawable2dInterface, public Point<X>, public Labelling {
+class LabelledPoint : public LabelledDrawable2dInterface, public Point<X>, public Labelled {
   public:
     LabelledPoint(RealSpace const& state_space, Point<X> const& pt);
     LabelledPoint(List<Assignment<RealVariable,X>> const& val);
     LabelledPoint(InitializerList<Assignment<RealVariable,X>> const& val);
     template<class T> requires Convertible<T,X>
-    LabelledPoint(const LabelledPoint<T>& pt) : Point<X>(pt), Labelling(pt.space()) { }
+    LabelledPoint(const LabelledPoint<T>& pt) : Point<X>(pt), Labelled(pt.space()) { }
     template<class Y, class... PRS> requires Constructible<X,Y,PRS...>
-    LabelledPoint(const LabelledPoint<Y>& pt, PRS... prs) : Point<X>(pt,prs...), Labelling(pt.space()) { }
+    LabelledPoint(const LabelledPoint<Y>& pt, PRS... prs) : Point<X>(pt,prs...), Labelled(pt.space()) { }
 
     LabelledPoint* labelled_clone() const override;
     Void draw(CanvasInterface&, const Variables2d&) const override;

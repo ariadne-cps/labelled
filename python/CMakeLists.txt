@@ -10,17 +10,17 @@ if(Python3_FOUND)
     report_python_configuration_once()
 
     if(NOT TARGET pyariadne-expression_set)
-        message(FATAL_ERROR "The Expression Set Python binding target is required to build pyariadne-labelling.")
+        message(FATAL_ERROR "The Expression Set Python binding target is required to build pyariadne-labelled.")
     endif()
 
     if(NOT TARGET pyariadne-drawing)
-        message(FATAL_ERROR "The Drawing Python binding target is required to build pyariadne-labelling.")
+        message(FATAL_ERROR "The Drawing Python binding target is required to build pyariadne-labelled.")
     endif()
 
     add_subdirectory(bindings)
 
     if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
-        ariadne_finalize_python_module(NAME labelling)
+        ariadne_finalize_python_module(NAME labelled)
 
         # Install the combined extension, not its INTERFACE contributors.
         if(WIN32)

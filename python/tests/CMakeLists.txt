@@ -17,19 +17,19 @@ endif()
 
 if(PYTHON_TESTS)
     add_custom_target(
-        test_python_labelling
-        COMMAND "${Python3_EXECUTABLE}" -m pytest "${CMAKE_CURRENT_SOURCE_DIR}/test_labelling.py"
+        test_python_labelled
+        COMMAND "${Python3_EXECUTABLE}" -m pytest "${CMAKE_CURRENT_SOURCE_DIR}/test_labelled.py"
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
     add_test(
-        NAME test_python_labelling
-        COMMAND "${Python3_EXECUTABLE}" -m pytest "${CMAKE_CURRENT_SOURCE_DIR}/test_labelling.py"
+        NAME test_python_labelled
+        COMMAND "${Python3_EXECUTABLE}" -m pytest "${CMAKE_CURRENT_SOURCE_DIR}/test_labelled.py"
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
-    set_property(TEST test_python_labelling PROPERTY
+    set_property(TEST test_python_labelled PROPERTY
         ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:pyariadne>"
     )
-    set_property(TEST test_python_labelling PROPERTY LABELS "python;labelling")
-    add_dependencies(test_python_labelling pyariadne)
+    set_property(TEST test_python_labelled PROPERTY LABELS "python;labelled")
+    add_dependencies(test_python_labelled pyariadne)
     add_dependencies(tests pyariadne)
 endif()

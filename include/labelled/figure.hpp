@@ -1,16 +1,16 @@
-#ifndef ARIADNE_LABELLING_FIGURE_HPP
-#define ARIADNE_LABELLING_FIGURE_HPP
+#ifndef ARIADNE_LABELLED_FIGURE_HPP
+#define ARIADNE_LABELLED_FIGURE_HPP
 
 #include "ariadne-drawing.hpp"
-#include "labelling/graphics_interface.hpp"
+#include "labelled/graphics_interface.hpp"
 #include "symbolic/variable.hpp"
 #include "symbolic/space.hpp"
 #include "expression-set/expression_set.hpp"
-#include "labelling/set.hpp"
+#include "labelled/set.hpp"
 
 namespace Ariadne {
 
-// Preserve the coordinate interval type used by the labelling API.
+// Preserve the coordinate interval type used by the labelled API.
 using ApproximateDoubleInterval = Interval<ApproximateDouble>;
 using ApproximateDoubleVariableInterval = VariableInterval<ApproximateDouble>;
 using DoubleVariableInterval = VariableInterval<Double>;

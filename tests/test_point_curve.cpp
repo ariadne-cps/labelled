@@ -24,8 +24,8 @@
 
 #include "numeric/module.hpp"
 #include "geometry/point.hpp"
-#include "labelling/point.hpp"
-#include "labelling/curve.hpp"
+#include "labelled/point.hpp"
+#include "labelled/curve.hpp"
 #include "set/curve.hpp"
 #include "symbolic/space.hpp"
 #include "symbolic/assignment.hpp"

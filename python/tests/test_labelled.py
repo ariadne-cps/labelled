@@ -1,7 +1,7 @@
 from pyariadne import *
 
 
-def test_labelling():
+def test_labelled():
     x = RealVariable("x")
     y = RealVariable("y")
 

@@ -17,5 +17,5 @@ box = LabelledRealBox(
 )
 
 figure.draw(box)
-figure.write("tutorial_labelling")
+figure.write("tutorial_labelled")
 print("dimension:", box.dimension())

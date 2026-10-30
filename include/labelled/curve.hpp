@@ -1,15 +1,15 @@
-#ifndef ARIADNE_LABELLING_CURVE_HPP
-#define ARIADNE_LABELLING_CURVE_HPP
+#ifndef ARIADNE_LABELLED_CURVE_HPP
+#define ARIADNE_LABELLED_CURVE_HPP
 
 #include "set/curve.hpp"
-#include "labelling/point.hpp"
+#include "labelled/point.hpp"
 
 namespace Ariadne {
 
 class LabelledInterpolatedCurve
     : public LabelledDrawable2dInterface,
       public InterpolatedCurve,
-      public Labelling
+      public Labelled
 {
   public:
     typedef LabelledPoint<FloatDPApproximation> PointType;

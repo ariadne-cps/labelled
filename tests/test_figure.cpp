@@ -1,5 +1,5 @@
 #include "macro/testing.hpp"
-#include "labelling/figure.hpp"
+#include "labelled/figure.hpp"
 #include "drawing/box_draw.hpp"
 #include "rendering/null_rendering.hpp"
 #include "logging/logging.hpp"
@@ -194,11 +194,11 @@ class TestLabelledFigure {
         LabelledFigure figure(Axes2d(-1.0,x,1.0,-1.0,y,1.0));
 
         // Validate both overloads against the actual PNG file format.
-        figure.write("test_labelling_default.png");
-        verify_png("test_labelling_default.png",800u,800u);
+        figure.write("test_labelled_default.png");
+        verify_png("test_labelled_default.png",800u,800u);
 
-        figure.write("test_labelling_sized.png",64u,48u);
-        verify_png("test_labelling_sized.png",64u,48u);
+        figure.write("test_labelled_sized.png",64u,48u);
+        verify_png("test_labelled_sized.png",64u,48u);
     }
 };
 
