@@ -94,8 +94,8 @@ template<class X> class TestPoint : public Ariadne::Testing::ContextFixture {
         auto pt_pr = project(pt,Variables2d(z,x));
         ARIADNE_TESTING_NOTE(pt_pr);
         ARIADNE_TESTING_EXPECT_EQUAL(pt_pr.dimension(),2);
-        ARIADNE_TESTING_EXPECT_EQUAL(pt.at(0),pt_pr.at(1));
-        ARIADNE_TESTING_EXPECT_EQUAL(pt.at(2),pt_pr.at(0));
+        ARIADNE_TESTING_EXPECT_SAME(pt.at(0),pt_pr.at(1));
+        ARIADNE_TESTING_EXPECT_SAME(pt.at(2),pt_pr.at(0));
     }
 };
 
