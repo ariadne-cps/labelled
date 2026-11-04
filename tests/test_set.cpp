@@ -15,7 +15,7 @@ class TestLabelledSet : public Ariadne::Testing::ContextFixture {
   public:
     using ContextFixture::ContextFixture;
 
-    Void test_set() const {
+    Void test_set() {
         ARIADNE_TESTING_EXPECT_EXCEPTION(LabelledSet<RealBox>(
             RealSpace({x,y}),
             RealBox({{0.1_dec,0.5_dec},{-2.3_dec,1},{0,3}})
@@ -30,7 +30,7 @@ class TestLabelledSet : public Ariadne::Testing::ContextFixture {
         ARIADNE_TESTING_EXPECT_EXCEPTION(set.euclidean_set(RealSpace({y,u})));
     }
 
-    Void test_point_adapter() const {
+    Void test_point_adapter() {
         Map<RealVariable,Real> bindings;
         bindings.insert(x,0.1_dec);
         bindings.insert(y,-1);
@@ -39,7 +39,7 @@ class TestLabelledSet : public Ariadne::Testing::ContextFixture {
         ARIADNE_TESTING_EXPECT_EQUAL(labelled.dimension(),2);
     }
 
-    Void test_box_adapter() const {
+    Void test_box_adapter() {
         RealVariablesBox box(RealSpace({x,y}),RealBox({{0.1_dec,0.5_dec},{-2.3_dec,1}}));
         LabelledSet<RealBox> labelled(box);
         ARIADNE_TESTING_EXPECT_EQUAL(labelled.dimension(),2);
