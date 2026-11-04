@@ -33,7 +33,7 @@
 #include "drawing/geometry_draw.hpp"
 #include "rendering/null_rendering.hpp"
 
-#include "macro/testing.hpp"
+#include "ariadne-testing.hpp"
 
 using namespace Ariadne;
 
@@ -55,89 +55,85 @@ class TestPointCanvas : public NullCanvas {
     Bool stroked=false;
 };
 
-template<class X> class TestPoint {
+template<class X> class TestPoint : public Ariadne::Testing::ContextFixture {
     typedef LabelledPoint<X> PointType;
   public:
-    void test() {
-        ARIADNE_TEST_CALL(test_creation());
-        ARIADNE_TEST_CALL(test_projection());
-    }
+    using ContextFixture::ContextFixture;
 
     void test_creation() {
         RealVariable x("x"), y("y");
         LabelledPoint<Real> rpt({x=3,y=2.1_dec});
         PointType pt(rpt,dp);
 
-        ARIADNE_TEST_EQUALS(class_name<LabelledPoint<Real>>(),String("LabelledPoint<Real>"));
-        ARIADNE_TEST_EQUALS(class_name<LabelledPoint<FloatDPApproximation>>(),String("LabelledPoint<FloatDPApproximation>"));
+        ARIADNE_TESTING_EXPECT_EQUAL(class_name<LabelledPoint<Real>>(),String("LabelledPoint<Real>"));
+        ARIADNE_TESTING_EXPECT_EQUAL(class_name<LabelledPoint<FloatDPApproximation>>(),String("LabelledPoint<FloatDPApproximation>"));
 
-        ARIADNE_TEST_EQUALS(pt.dimension(),2);
-        ARIADNE_TEST_EQUAL(pt.space(),RealSpace({x,y}));
-        ARIADNE_TEST_EQUAL(pt.variables(),Set<RealVariable>(RealSpace({x,y}).variables()));
-        ARIADNE_TEST_PRINT(pt.bounding_box());
+        ARIADNE_TESTING_EXPECT_EQUAL(pt.dimension(),2);
+        ARIADNE_TESTING_EXPECT_EQUAL(pt.space(),RealSpace({x,y}));
+        ARIADNE_TESTING_EXPECT_EQUAL(pt.variables(),Set<RealVariable>(RealSpace({x,y}).variables()));
+        ARIADNE_TESTING_NOTE(pt.bounding_box());
 
         std::unique_ptr<PointType> clone(pt.labelled_clone());
-        ARIADNE_TEST_EQUALS(clone->dimension(),pt.dimension());
-        ARIADNE_TEST_EQUAL(clone->space(),pt.space());
-        ARIADNE_TEST_EQUAL(clone->variables(),pt.variables());
+        ARIADNE_TESTING_EXPECT_EQUAL(clone->dimension(),pt.dimension());
+        ARIADNE_TESTING_EXPECT_EQUAL(clone->space(),pt.space());
+        ARIADNE_TESTING_EXPECT_EQUAL(clone->variables(),pt.variables());
 
         TestPointCanvas canvas;
         pt.draw(canvas,Variables2d(x,y));
-        ARIADNE_TEST_ASSERT(canvas.dotted);
-        ARIADNE_TEST_ASSERT(canvas.stroked);
+        ARIADNE_TESTING_PROVE(canvas.dotted);
+        ARIADNE_TESTING_PROVE(canvas.stroked);
     }
 
     void test_projection() {
         RealVariable x("x"), y("y"), z("z");
         LabelledPoint<Real> rpt({x=3,y=2.1_dec,z=1/5_q});
         PointType pt(rpt,dp);
-        ARIADNE_TEST_PRINT(pt);
-        ARIADNE_TEST_EQUALS(pt.dimension(),3);
+        ARIADNE_TESTING_NOTE(pt);
+        ARIADNE_TESTING_EXPECT_EQUAL(pt.dimension(),3);
 
         auto pt_pr = project(pt,Variables2d(z,x));
-        ARIADNE_TEST_PRINT(pt_pr);
-        ARIADNE_TEST_EQUALS(pt_pr.dimension(),2);
-        ARIADNE_TEST_EQUAL(pt.at(0),pt_pr.at(1));
-        ARIADNE_TEST_EQUAL(pt.at(2),pt_pr.at(0));
+        ARIADNE_TESTING_NOTE(pt_pr);
+        ARIADNE_TESTING_EXPECT_EQUAL(pt_pr.dimension(),2);
+        ARIADNE_TESTING_EXPECT_EQUAL(pt.at(0),pt_pr.at(1));
+        ARIADNE_TESTING_EXPECT_EQUAL(pt.at(2),pt_pr.at(0));
     }
 };
 
-class TestCurve {
+class TestCurve : public Ariadne::Testing::ContextFixture {
     typedef LabelledInterpolatedCurve CurveType;
     typedef CurveType::PointType PointType;
   public:
-    void test() {
-        ARIADNE_TEST_CALL(test_creation());
-    }
+    using ContextFixture::ContextFixture;
 
     void test_creation() {
         RealVariable x("x"), y("y");
         LabelledPoint<Real> rpt({x=3,y=2.1_dec});
         PointType pt(rpt,dp);
         CurveType curve(pt);
-        ARIADNE_TEST_EQUALS(curve.dimension(),2);
-        ARIADNE_TEST_EQUAL(curve.space(),pt.space());
-        ARIADNE_TEST_EQUAL(curve.variables(),pt.variables());
-        ARIADNE_TEST_EQUALS(curve.size(),1);
+        ARIADNE_TESTING_EXPECT_EQUAL(curve.dimension(),2);
+        ARIADNE_TESTING_EXPECT_EQUAL(curve.space(),pt.space());
+        ARIADNE_TESTING_EXPECT_EQUAL(curve.variables(),pt.variables());
+        ARIADNE_TESTING_EXPECT_EQUAL(curve.size(),1);
         curve.insert(FloatDP(1.0_x,dp),pt);
-        ARIADNE_TEST_EQUALS(curve.size(),2);
+        ARIADNE_TESTING_EXPECT_EQUAL(curve.size(),2);
 
         std::unique_ptr<CurveType> clone(curve.labelled_clone());
-        ARIADNE_TEST_EQUALS(clone->dimension(),curve.dimension());
-        ARIADNE_TEST_EQUAL(clone->space(),curve.space());
-        ARIADNE_TEST_EQUALS(clone->size(),curve.size());
+        ARIADNE_TESTING_EXPECT_EQUAL(clone->dimension(),curve.dimension());
+        ARIADNE_TESTING_EXPECT_EQUAL(clone->space(),curve.space());
+        ARIADNE_TESTING_EXPECT_EQUAL(clone->size(),curve.size());
 
         TestCurveCanvas canvas;
         curve.draw(canvas,Variables2d(x,y));
-        ARIADNE_TEST_ASSERT(canvas.moved);
-        ARIADNE_TEST_ASSERT(canvas.lined);
+        ARIADNE_TESTING_PROVE(canvas.moved);
+        ARIADNE_TESTING_PROVE(canvas.lined);
     }
 };
 
 
-int main() {
-    TestPoint<FloatDPApproximation>().test();
-    TestCurve().test();
-
-    return ARIADNE_TEST_FAILURES;
+int main(int argc, char** argv) {
+    ARIADNE_TESTING_SUITE("test_point_curve");
+    ARIADNE_TESTING_ADD_TEST(TestPoint<FloatDPApproximation>, test_creation);
+    ARIADNE_TESTING_ADD_TEST(TestPoint<FloatDPApproximation>, test_projection);
+    ARIADNE_TESTING_ADD_TEST(TestCurve, test_creation);
+    return ARIADNE_TESTING_RUN_TESTS_WITH_ARGS(argc, argv);
 }

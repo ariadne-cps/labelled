@@ -22,8 +22,9 @@ Labelled depends directly on:
 - [ariadne-cps/expression-set](https://github.com/ariadne-cps/expression-set), Git submodule `ss/exp`, for labelled bounds, symbolic sets and the underlying Symbolic and Set modules.
 - [ariadne-cps/drawing](https://github.com/ariadne-cps/drawing), Git submodule `ss/dra`, for geometric drawing and rendering.
 - [ariadne-cps/configuration](https://github.com/ariadne-cps/configuration), Git submodule `ss/cfg`, for shared CMake infrastructure.
+- [ariadne-cps/testing](https://github.com/ariadne-cps/testing), Git submodule `ss/tst`, for C++ fixture tests and diagnostics (test-only dependency).
 
-Expression Set supplies Symbolic and Set transitively; Drawing supplies Paving, Rendering and Set transitively. The build checks that shared Configuration, Set and Function dependencies use consistent commits. Kernel is not a dependency.
+Expression Set supplies Symbolic and Set transitively; Drawing supplies Paving, Rendering and Set transitively. The build checks that shared Configuration, Set and Function dependencies use consistent commits. C++ unit tests use the independent Ariadne Testing framework, with each case registered separately. Kernel is not a dependency.
 
 ## Build
 

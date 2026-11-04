@@ -1,4 +1,4 @@
-#include "macro/testing.hpp"
+#include "ariadne-testing.hpp"
 #include "labelled/figure.hpp"
 #include "drawing/box_draw.hpp"
 #include "rendering/null_rendering.hpp"
@@ -25,37 +25,30 @@ class BoundsCanvas : public NullCanvas {
     double x_lower=0.0, x_upper=0.0, y_lower=0.0, y_upper=0.0;
 };
 
-class TestLabelledFigure {
+class TestLabelledFigure : public Ariadne::Testing::ContextFixture {
   public:
-    void test() {
-        ARIADNE_TEST_CALL(test_projection())
-        ARIADNE_TEST_CALL(test_construction())
-        ARIADNE_TEST_CALL(test_drawing())
-        ARIADNE_TEST_CALL(test_invalid_axes())
-        ARIADNE_TEST_CALL(test_style_modifiers())
-        ARIADNE_TEST_CALL(test_png_export())
-    }
+    using ContextFixture::ContextFixture;
 
     void test_projection() {
         RealVariable x("x"), y("y"), z("z");
         RealSpace space({x,y});
         Projection2d regular=projection(space,Variables2d(x,y));
-        ARIADNE_TEST_EQUALS(regular.argument_size(),2u)
-        ARIADNE_TEST_EQUALS(regular.x_coordinate(),0u)
-        ARIADNE_TEST_EQUALS(regular.y_coordinate(),1u)
+        ARIADNE_TESTING_EXPECT_EQUAL(regular.argument_size(),2u);
+        ARIADNE_TESTING_EXPECT_EQUAL(regular.x_coordinate(),0u);
+        ARIADNE_TESTING_EXPECT_EQUAL(regular.y_coordinate(),1u);
 
         Projection2d time_projection=projection(RealSpace({y}),Variables2d(TimeVariable(),y));
-        ARIADNE_TEST_EQUALS(time_projection.x_coordinate(),1u)
-        ARIADNE_TEST_EQUALS(time_projection.y_coordinate(),0u)
+        ARIADNE_TESTING_EXPECT_EQUAL(time_projection.x_coordinate(),1u);
+        ARIADNE_TESTING_EXPECT_EQUAL(time_projection.y_coordinate(),0u);
 
         // When time is already a coordinate, the ordinary index is used.
         Projection2d contained_time=projection(RealSpace({TimeVariable(),y}),Variables2d(TimeVariable(),y));
-        ARIADNE_TEST_EQUALS(contained_time.argument_size(),2u)
-        ARIADNE_TEST_EQUALS(contained_time.x_coordinate(),0u)
-        ARIADNE_TEST_EQUALS(contained_time.y_coordinate(),1u)
+        ARIADNE_TESTING_EXPECT_EQUAL(contained_time.argument_size(),2u);
+        ARIADNE_TESTING_EXPECT_EQUAL(contained_time.x_coordinate(),0u);
+        ARIADNE_TESTING_EXPECT_EQUAL(contained_time.y_coordinate(),1u);
 
-        ARIADNE_TEST_FAIL(projection(space,Variables2d(z,y)))
-        ARIADNE_TEST_FAIL(projection(space,Variables2d(x,z)))
+        ARIADNE_TESTING_EXPECT_EXCEPTION(projection(space,Variables2d(z,y)));
+        ARIADNE_TESTING_EXPECT_EXCEPTION(projection(space,Variables2d(x,z)));
     }
 
     void test_construction() {
@@ -69,51 +62,51 @@ class TestLabelledFigure {
         ApproximateBoxType one_dimensional_bounds({
             {FloatDPApproximation(0.0,dp),FloatDPApproximation(1.0,dp)}
         });
-        ARIADNE_TEST_FAIL(LabelledFigure(Variables2d(x,y),
+        ARIADNE_TESTING_EXPECT_EXCEPTION(LabelledFigure(Variables2d(x,y),
             VariablesBox<ApproximateIntervalType>(
-                RealSpace({x}),one_dimensional_bounds)))
+                RealSpace({x}),one_dimensional_bounds)));
 
-        ARIADNE_TEST_FAIL(LabelledFigure(Variables2d(x,z),
-            VariablesBox<ApproximateIntervalType>(RealSpace({x,y}),bounds)))
+        ARIADNE_TESTING_EXPECT_EXCEPTION(LabelledFigure(Variables2d(x,z),
+            VariablesBox<ApproximateIntervalType>(RealSpace({x,y}),bounds)));
 
         LabelledFigure figure(Variables2d(x,y),
             VariablesBox<ApproximateIntervalType>(RealSpace({x,y}),bounds));
-        ARIADNE_TEST_EXECUTE(figure.set_axes(Axes2d({0<=x<=1,-1<=y<=2})))
-        ARIADNE_TEST_EXECUTE(figure.set_bounds(x,ApproximateDoubleInterval(1.0,2.0)))
-        ARIADNE_TEST_EXECUTE(figure.set_bounds({
+        ARIADNE_TESTING_EXPECT_NO_THROW(figure.set_axes(Axes2d({0<=x<=1,-1<=y<=2})));
+        ARIADNE_TESTING_EXPECT_NO_THROW(figure.set_bounds(x,ApproximateDoubleInterval(1.0,2.0)));
+        ARIADNE_TESTING_EXPECT_NO_THROW(figure.set_bounds({
             {x,ApproximateDoubleInterval(1.0,2.0)},
-            {y,ApproximateDoubleInterval(0.0,1.0)}}))
-        ARIADNE_TEST_EXECUTE(figure.set_bounding_box(
-            VariablesBox<ApproximateIntervalType>(RealSpace({x,y}),bounds)))
+            {y,ApproximateDoubleInterval(0.0,1.0)}}));
+        ARIADNE_TESTING_EXPECT_NO_THROW(figure.set_bounding_box(
+            VariablesBox<ApproximateIntervalType>(RealSpace({x,y}),bounds)));
 
         // Incomplete bounds cannot replace the last valid two-axis viewport.
         figure.set_bounds({{y,ApproximateDoubleInterval(-2.0,2.0)}});
         BoundsCanvas incomplete;
         figure._paint_all(incomplete);
-        ARIADNE_TEST_ASSERT(incomplete.initialized)
-        ARIADNE_TEST_EQUALS(incomplete.x_lower,0.0)
-        ARIADNE_TEST_EQUALS(incomplete.x_upper,1.0)
-        ARIADNE_TEST_EQUALS(incomplete.y_lower,-1.0)
-        ARIADNE_TEST_EQUALS(incomplete.y_upper,1.0)
+        ARIADNE_TESTING_PROVE(incomplete.initialized);
+        ARIADNE_TESTING_EXPECT_EQUAL(incomplete.x_lower,0.0);
+        ARIADNE_TESTING_EXPECT_EQUAL(incomplete.x_upper,1.0);
+        ARIADNE_TESTING_EXPECT_EQUAL(incomplete.y_lower,-1.0);
+        ARIADNE_TESTING_EXPECT_EQUAL(incomplete.y_upper,1.0);
 
         // Once both axes are present, the rendered viewport must change.
         figure.set_bounds({{x,ApproximateDoubleInterval(-3.0,3.0)},
                            {y,ApproximateDoubleInterval(-4.0,4.0)}});
         BoundsCanvas complete;
         figure._paint_all(complete);
-        ARIADNE_TEST_EQUALS(complete.x_lower,-3.0)
-        ARIADNE_TEST_EQUALS(complete.x_upper,3.0)
-        ARIADNE_TEST_EQUALS(complete.y_lower,-4.0)
-        ARIADNE_TEST_EQUALS(complete.y_upper,4.0)
+        ARIADNE_TESTING_EXPECT_EQUAL(complete.x_lower,-3.0);
+        ARIADNE_TESTING_EXPECT_EQUAL(complete.x_upper,3.0);
+        ARIADNE_TESTING_EXPECT_EQUAL(complete.y_lower,-4.0);
+        ARIADNE_TESTING_EXPECT_EQUAL(complete.y_upper,4.0);
     }
 
     void test_invalid_axes() {
         RealVariable empty(""), x("x"), y("y");
         NullCanvas canvas;
         LabelledFigure empty_x(Axes2d(-1.0,empty,1.0,-1.0,y,1.0));
-        ARIADNE_TEST_FAIL(empty_x._paint_all(canvas))
+        ARIADNE_TESTING_EXPECT_EXCEPTION(empty_x._paint_all(canvas));
         LabelledFigure empty_y(Axes2d(-1.0,x,1.0,-1.0,empty,1.0));
-        ARIADNE_TEST_FAIL(empty_y._paint_all(canvas))
+        ARIADNE_TESTING_EXPECT_EXCEPTION(empty_y._paint_all(canvas));
     }
 
     void test_drawing() {
@@ -123,14 +116,14 @@ class TestLabelledFigure {
             RealSpace({x,y}),
             RealBox({{-1.25_dec,0.75_dec},{-0.75_dec,1.00_dec}}));
         figure.properties().set_line_style(false).set_fill_style(false).set_dot_radius(2.0);
-        ARIADNE_TEST_EQUALS(figure.properties().line_style,false)
+        ARIADNE_TESTING_EXPECT_EQUAL(figure.properties().line_style,false);
         figure.draw(LabelledDrawableWrapper<RealBox>(region));
         draw(figure,LabelledDrawableWrapper<RealBox>(region));
         figure << region;
         figure.set_animated(true);
         NullCanvas canvas;
-        ARIADNE_TEST_EXECUTE(figure._paint_all(canvas))
-        ARIADNE_TEST_EXECUTE(figure.clear())
+        ARIADNE_TESTING_EXPECT_NO_THROW(figure._paint_all(canvas));
+        ARIADNE_TESTING_EXPECT_NO_THROW(figure.clear());
     }
 
     void test_style_modifiers() {
@@ -148,17 +141,17 @@ class TestLabelledFigure {
 
         LabelledFigure const& const_figure=figure;
         RenderingProperties const& properties=const_figure.properties();
-        ARIADNE_TEST_EQUALS(properties.line_style,false)
-        ARIADNE_TEST_EQUALS(properties.line_width,2.5)
-        ARIADNE_TEST_EQUALS(properties.line_colour.red,0.25)
-        ARIADNE_TEST_EQUALS(properties.line_colour.green,0.5)
-        ARIADNE_TEST_EQUALS(properties.line_colour.blue,0.75)
-        ARIADNE_TEST_EQUALS(properties.fill_style,false)
-        ARIADNE_TEST_EQUALS(properties.fill_colour.red,0.6)
-        ARIADNE_TEST_EQUALS(properties.fill_colour.green,0.4)
-        ARIADNE_TEST_EQUALS(properties.fill_colour.blue,0.2)
-        ARIADNE_TEST_EQUALS(properties.fill_colour.opacity,0.35)
-        ARIADNE_TEST_EQUALS(properties.is_animated,true)
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.line_style,false);
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.line_width,2.5);
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.line_colour.red,0.25);
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.line_colour.green,0.5);
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.line_colour.blue,0.75);
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.fill_style,false);
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.fill_colour.red,0.6);
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.fill_colour.green,0.4);
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.fill_colour.blue,0.2);
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.fill_colour.opacity,0.35);
+        ARIADNE_TESTING_EXPECT_EQUAL(properties.is_animated,true);
     }
 
     static unsigned int png_dimension(std::array<unsigned char,24> const& header, SizeType start) {
@@ -170,23 +163,23 @@ class TestLabelledFigure {
 
     void verify_png(const char* filename, unsigned int width, unsigned int height) {
         std::ifstream image(filename,std::ios::binary);
-        ARIADNE_TEST_ASSERT(image.is_open())
+        ARIADNE_TESTING_PROVE(image.is_open());
         std::array<unsigned char,24> header{};
         image.read(reinterpret_cast<char*>(header.data()),static_cast<std::streamsize>(header.size()));
-        ARIADNE_TEST_EQUALS(image.gcount(),static_cast<std::streamsize>(header.size()))
-        ARIADNE_TEST_EQUALS(static_cast<unsigned int>(header[0]),137u)
-        ARIADNE_TEST_EQUALS(static_cast<unsigned int>(header[1]),80u)
-        ARIADNE_TEST_EQUALS(static_cast<unsigned int>(header[2]),78u)
-        ARIADNE_TEST_EQUALS(static_cast<unsigned int>(header[3]),71u)
+        ARIADNE_TESTING_EXPECT_EQUAL(image.gcount(),static_cast<std::streamsize>(header.size()));
+        ARIADNE_TESTING_EXPECT_EQUAL(static_cast<unsigned int>(header[0]),137u);
+        ARIADNE_TESTING_EXPECT_EQUAL(static_cast<unsigned int>(header[1]),80u);
+        ARIADNE_TESTING_EXPECT_EQUAL(static_cast<unsigned int>(header[2]),78u);
+        ARIADNE_TESTING_EXPECT_EQUAL(static_cast<unsigned int>(header[3]),71u);
         // The size passed to Figure::write is the plot area. Rendering
         // adds 160+10 pixels for horizontal margins (axis labels) and
         // 10+40 pixels for vertical margins before writing the PNG.
         constexpr unsigned int horizontal_margins=160u+10u;
         constexpr unsigned int vertical_margins=10u+40u;
-        ARIADNE_TEST_EQUALS(png_dimension(header,16u),width+horizontal_margins)
-        ARIADNE_TEST_EQUALS(png_dimension(header,20u),height+vertical_margins)
+        ARIADNE_TESTING_EXPECT_EQUAL(png_dimension(header,16u),width+horizontal_margins);
+        ARIADNE_TESTING_EXPECT_EQUAL(png_dimension(header,20u),height+vertical_margins);
         image.close();
-        ARIADNE_TEST_EQUALS(std::remove(filename),0)
+        ARIADNE_TESTING_EXPECT_EQUAL(std::remove(filename),0);
     }
 
     void test_png_export() {
@@ -202,7 +195,13 @@ class TestLabelledFigure {
     }
 };
 
-int main() {
-    TestLabelledFigure().test();
-    return ARIADNE_TEST_FAILURES;
+int main(int argc, char** argv) {
+    ARIADNE_TESTING_SUITE("test_figure");
+    ARIADNE_TESTING_ADD_TEST(TestLabelledFigure, test_projection);
+    ARIADNE_TESTING_ADD_TEST(TestLabelledFigure, test_construction);
+    ARIADNE_TESTING_ADD_TEST(TestLabelledFigure, test_drawing);
+    ARIADNE_TESTING_ADD_TEST(TestLabelledFigure, test_invalid_axes);
+    ARIADNE_TESTING_ADD_TEST(TestLabelledFigure, test_style_modifiers);
+    ARIADNE_TESTING_ADD_TEST(TestLabelledFigure, test_png_export);
+    return ARIADNE_TESTING_RUN_TESTS_WITH_ARGS(argc, argv);
 }
