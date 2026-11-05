@@ -35,5 +35,6 @@ target_link_libraries(pyariadne-labelled INTERFACE
 
 ariadne_add_python_module(
     NAME labelled
+    MODULE_IMPORT_NAME pyariadne_labelled
     MODULE_SOURCE labelled_module.cpp
 )

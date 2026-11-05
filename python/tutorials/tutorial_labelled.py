@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from pyariadne import *
+from pyariadne_labelled import *
 
 x = RealVariable("x")
 y = RealVariable("y")

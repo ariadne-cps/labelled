@@ -1,4 +1,4 @@
-from pyariadne import *
+from pyariadne_labelled import *
 
 
 def test_labelled():

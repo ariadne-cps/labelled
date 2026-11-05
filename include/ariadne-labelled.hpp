@@ -1,6 +1,8 @@
 #ifndef ARIADNE_ARIADNE_LABELLED_HPP
 #define ARIADNE_ARIADNE_LABELLED_HPP
 
+#include "ariadne-drawing.hpp"
+
 #include "ariadne-expression-set.hpp"
 
 #include "labelled/labelled.hpp"
