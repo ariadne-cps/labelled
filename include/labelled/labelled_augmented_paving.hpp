@@ -43,27 +43,27 @@ class LabelledAugmentedPaving
 
     LabelledAugmentedPaving(Grid const& grid, RealSpace const& state_space,
                     Mapping const& auxiliary_mapping, RealSpace const& auxiliary_space);
-    LabelledAugmentedPaving(GridTreePaving const& paving, RealSpace const& state_space,
+    LabelledAugmentedPaving(BinaryTreePaving const& paving, RealSpace const& state_space,
                     Mapping const& auxiliary_mapping, RealSpace const& auxiliary_space);
 
     LabelledAugmentedPaving(Grid const& grid, LabelledMapping const& auxiliary)
-        : LabelledAugmentedPaving(GridTreePaving(grid),auxiliary) { }
-    LabelledAugmentedPaving(GridTreePaving const& paving, LabelledMapping const& auxiliary)
+        : LabelledAugmentedPaving(BinaryTreePaving(grid),auxiliary) { }
+    LabelledAugmentedPaving(BinaryTreePaving const& paving, LabelledMapping const& auxiliary)
         : LabelledAugmentedPaving(paving,auxiliary.argument_space(),auxiliary.mapping(),auxiliary.result_space()) {
             ARIADNE_PRECONDITION(paving.dimension()==auxiliary.argument_space().dimension()); }
     LabelledAugmentedPaving(LabelledGrid const& grid, LabelledMapping const& auxiliary)
         : LabelledAugmentedPaving(grid.euclidean_grid(),auxiliary) { ARIADNE_PRECONDITION(grid.space()==auxiliary.argument_space()); }
-    LabelledAugmentedPaving(LabelledGridTreePaving const& paving, LabelledMapping const& auxiliary)
+    LabelledAugmentedPaving(LabelledBinaryTreePaving const& paving, LabelledMapping const& auxiliary)
         : LabelledAugmentedPaving(paving.euclidean_set(),auxiliary) { ARIADNE_PRECONDITION(paving.space()==auxiliary.argument_space()); }
 
     template<class SYS> LabelledAugmentedPaving(Grid const& grid, SYS const& system)
         : LabelledAugmentedPaving(grid,system.state_space(),system.auxiliary_mapping(),system.auxiliary_space()) { }
-    template<class SYS> LabelledAugmentedPaving(GridTreePaving const& paving, SYS const& system)
+    template<class SYS> LabelledAugmentedPaving(BinaryTreePaving const& paving, SYS const& system)
         : LabelledAugmentedPaving(paving,system.state_space(),system.auxiliary_mapping(),system.auxiliary_space()) { }
     template<class SYS> LabelledAugmentedPaving(LabelledGrid const& grid, SYS const& system)
         : LabelledAugmentedPaving(grid.euclidean_grid(),system.state_space(),system.auxiliary_mapping(),system.auxiliary_space()) {
             ARIADNE_PRECONDITION(grid.space()==system.state_space()); }
-    template<class SYS> LabelledAugmentedPaving(LabelledGridTreePaving const& paving, SYS const& system)
+    template<class SYS> LabelledAugmentedPaving(LabelledBinaryTreePaving const& paving, SYS const& system)
         : LabelledAugmentedPaving(paving.euclidean_set(),system.state_space(),system.auxiliary_mapping(),system.auxiliary_space()) {
             ARIADNE_PRECONDITION(paving.space()==system.state_space()); }
 
@@ -105,7 +105,7 @@ class LabelledAugmentedPaving
     List<Identifier> _auxiliary_variables;
 };
 
-LabelledGridTreePaving inner_approximation(EffectiveEuclideanSetInterface const& set, LabelledGrid const& grid, Nat fineness);
+LabelledBinaryTreePaving inner_approximation(EffectiveEuclideanSetInterface const& set, LabelledGrid const& grid, Nat fineness);
 
 } // namespace Ariadne
 #endif // ARIADNE_REASONING_LABELLED_AUGMENTED_PAVING_HPP

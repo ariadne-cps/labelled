@@ -7,9 +7,9 @@ LabelledAugmentedPaving::LabelledAugmentedPaving(Grid const& grid,
                                  RealSpace const& state_space,
                                  EffectiveVectorMultivariateFunction const& auxiliary_mapping,
                                  RealSpace const& auxiliary_space)
-    : LabelledAugmentedPaving(GridTreePaving(grid), state_space, auxiliary_mapping, auxiliary_space) { }
+    : LabelledAugmentedPaving(BinaryTreePaving(grid), state_space, auxiliary_mapping, auxiliary_space) { }
 
-LabelledAugmentedPaving::LabelledAugmentedPaving(GridTreePaving const& paving,
+LabelledAugmentedPaving::LabelledAugmentedPaving(BinaryTreePaving const& paving,
                                  RealSpace const& state_space,
                                  EffectiveVectorMultivariateFunction const& auxiliary_mapping,
                                  RealSpace const& auxiliary_space)
@@ -19,8 +19,8 @@ LabelledAugmentedPaving::LabelledAugmentedPaving(GridTreePaving const& paving,
 { }
 
 
-LabelledGridTreePaving inner_approximation(EffectiveEuclideanSetInterface const& set, LabelledGrid const& grid, Nat fineness) {
-    LabelledGridTreePaving paving(grid); paving.euclidean_set().adjoin_inner_approximation(set,fineness); return paving;
+LabelledBinaryTreePaving inner_approximation(EffectiveEuclideanSetInterface const& set, LabelledGrid const& grid, Nat fineness) {
+    LabelledBinaryTreePaving paving(grid); paving.euclidean_set().adjoin_inner_approximation(set,fineness); return paving;
 }
 
 const RealSpace LabelledAugmentedPaving::state_space() const {

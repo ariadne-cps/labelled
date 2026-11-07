@@ -27,7 +27,7 @@
  */
 #ifndef ARIADNE_REASONING_LABELLED_GRID_HPP
 #define ARIADNE_REASONING_LABELLED_GRID_HPP
-#include "paving/grid_paving.hpp"
+#include "paving/binary_tree_paving.hpp"
 #include "symbolic/identifier.hpp"
 #include "symbolic/space.hpp"
 #include "function/function.hpp"
@@ -52,19 +52,19 @@ struct LabelledGrid {
 };
 
 
-struct LabelledGridTreePaving {
+struct LabelledBinaryTreePaving {
   public:
-    LabelledGridTreePaving(Grid const& grid, RealSpace const& space)
+    LabelledBinaryTreePaving(Grid const& grid, RealSpace const& space)
         : _set(grid), _variables(space.variable_names()) { }
-    LabelledGridTreePaving(GridTreePaving set, RealSpace const& space)
+    LabelledBinaryTreePaving(BinaryTreePaving set, RealSpace const& space)
         : _set(set), _variables(space.variable_names()) { }
-    explicit LabelledGridTreePaving(LabelledGrid const& lgrid)
-        : LabelledGridTreePaving(lgrid.euclidean_grid(),lgrid.space()) { }
-    GridTreePaving& euclidean_set() { return this->_set; }
-    GridTreePaving const& euclidean_set() const { return this->_set; }
+    explicit LabelledBinaryTreePaving(LabelledGrid const& lgrid)
+        : LabelledBinaryTreePaving(lgrid.euclidean_grid(),lgrid.space()) { }
+    BinaryTreePaving& euclidean_set() { return this->_set; }
+    BinaryTreePaving const& euclidean_set() const { return this->_set; }
     const RealSpace space() const { return RealSpace(this->_variables); }
   private:
-    GridTreePaving _set;
+    BinaryTreePaving _set;
     List<Identifier> _variables;
 };
 
