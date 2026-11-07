@@ -2,6 +2,7 @@ include(CTest)
 
 set(UNIT_TESTS
     test_set
+    test_augmented_paving
     test_point_curve
     test_figure
 )
