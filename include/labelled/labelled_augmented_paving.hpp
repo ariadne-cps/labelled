@@ -52,11 +52,9 @@ class LabelledAugmentedPaving
     LabelledAugmentedPaving(Grid const& grid, LabelledMapping const& auxiliary)
         : LabelledAugmentedPaving(BinaryTreePaving(grid),auxiliary) { }
     LabelledAugmentedPaving(BinaryTreePaving const& paving, LabelledMapping const& auxiliary)
-        : LabelledAugmentedPaving(paving,auxiliary.argument_space(),auxiliary.mapping(),auxiliary.result_space()) {
-            ARIADNE_PRECONDITION(paving.dimension()==auxiliary.argument_space().dimension()); }
+        : LabelledAugmentedPaving(paving,auxiliary.argument_space(),auxiliary.mapping(),auxiliary.result_space()) { }
     LabelledAugmentedPaving(Paving const& paving, LabelledMapping const& auxiliary)
-        : LabelledAugmentedPaving(paving,auxiliary.argument_space(),auxiliary.mapping(),auxiliary.result_space()) {
-            ARIADNE_PRECONDITION(paving.dimension()==auxiliary.argument_space().dimension()); }
+        : LabelledAugmentedPaving(paving,auxiliary.argument_space(),auxiliary.mapping(),auxiliary.result_space()) { }
     LabelledAugmentedPaving(LabelledGrid const& grid, LabelledMapping const& auxiliary)
         : LabelledAugmentedPaving(grid.euclidean_grid(),auxiliary) { ARIADNE_PRECONDITION(grid.space()==auxiliary.argument_space()); }
     LabelledAugmentedPaving(LabelledBinaryTreePaving const& paving, LabelledMapping const& auxiliary)

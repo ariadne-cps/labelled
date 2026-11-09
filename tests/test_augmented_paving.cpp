@@ -70,6 +70,7 @@ class TestLabelledAugmentedPaving : public Ariadne::Testing::ContextFixture {
         second.remove(first);
         ARIADNE_TESTING_PROVE(second.is_empty());
         LabelledAugmentedPaving const& const_first=first;
+        ARIADNE_TESTING_EXPECT_EQUAL(&first.euclidean_set(),static_cast<AugmentedPaving*>(&first));
         ARIADNE_TESTING_EXPECT_EQUAL(&const_first.euclidean_set(),
             static_cast<AugmentedPaving const*>(&first));
         ARIADNE_TESTING_EXPECT_EQUAL(first.grid().space(),state);
@@ -95,6 +96,10 @@ class TestLabelledAugmentedPaving : public Ariadne::Testing::ContextFixture {
         ARIADNE_TESTING_EXPECT_EXCEPTION((LabelledAugmentedPaving(wrong_tree,system)));
         ARIADNE_TESTING_EXPECT_EXCEPTION((LabelledPaving(Grid(1u),state)));
         ARIADNE_TESTING_EXPECT_EXCEPTION((LabelledAugmentedPaving(grid,RealSpace({x}),mapping,auxiliary)));
+        ExactBoxSetType regular(ExactBoxType({{-1,1},{-1,1}}));
+        auto approximation=inner_approximation(regular,labelled_grid,2u);
+        ARIADNE_TESTING_EXPECT_EQUAL(approximation.space(),state);
+        ARIADNE_TESTING_PROVE(!approximation.euclidean_set().is_empty());
     }
 
     Void test_generic_labelled_paving_shared_manager() {
