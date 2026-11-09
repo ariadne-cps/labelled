@@ -13,10 +13,19 @@ LabelledAugmentedPaving::LabelledAugmentedPaving(BinaryTreePaving const& paving,
                                  RealSpace const& state_space,
                                  EffectiveVectorMultivariateFunction const& auxiliary_mapping,
                                  RealSpace const& auxiliary_space)
+    : LabelledAugmentedPaving(Paving(new BinaryTreePaving(paving)),
+                             state_space,auxiliary_mapping,auxiliary_space) { }
+
+LabelledAugmentedPaving::LabelledAugmentedPaving(Paving const& paving,
+                                 RealSpace const& state_space,
+                                 EffectiveVectorMultivariateFunction const& auxiliary_mapping,
+                                 RealSpace const& auxiliary_space)
     : AugmentedPaving(paving,auxiliary_mapping)
     , _state_variables(state_space.variable_names())
     , _auxiliary_variables(auxiliary_space.variable_names())
-{ }
+{
+    ARIADNE_PRECONDITION(paving.dimension()==state_space.dimension());
+}
 
 
 LabelledBinaryTreePaving inner_approximation(EffectiveEuclideanSetInterface const& set, LabelledGrid const& grid, Nat fineness) {

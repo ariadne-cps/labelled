@@ -45,10 +45,16 @@ class LabelledAugmentedPaving
                     Mapping const& auxiliary_mapping, RealSpace const& auxiliary_space);
     LabelledAugmentedPaving(BinaryTreePaving const& paving, RealSpace const& state_space,
                     Mapping const& auxiliary_mapping, RealSpace const& auxiliary_space);
+    //! Preserve the selected Paving implementation (Tree or ROBDD).
+    LabelledAugmentedPaving(Paving const& paving, RealSpace const& state_space,
+                    Mapping const& auxiliary_mapping, RealSpace const& auxiliary_space);
 
     LabelledAugmentedPaving(Grid const& grid, LabelledMapping const& auxiliary)
         : LabelledAugmentedPaving(BinaryTreePaving(grid),auxiliary) { }
     LabelledAugmentedPaving(BinaryTreePaving const& paving, LabelledMapping const& auxiliary)
+        : LabelledAugmentedPaving(paving,auxiliary.argument_space(),auxiliary.mapping(),auxiliary.result_space()) {
+            ARIADNE_PRECONDITION(paving.dimension()==auxiliary.argument_space().dimension()); }
+    LabelledAugmentedPaving(Paving const& paving, LabelledMapping const& auxiliary)
         : LabelledAugmentedPaving(paving,auxiliary.argument_space(),auxiliary.mapping(),auxiliary.result_space()) {
             ARIADNE_PRECONDITION(paving.dimension()==auxiliary.argument_space().dimension()); }
     LabelledAugmentedPaving(LabelledGrid const& grid, LabelledMapping const& auxiliary)
@@ -59,6 +65,8 @@ class LabelledAugmentedPaving
     template<class SYS> LabelledAugmentedPaving(Grid const& grid, SYS const& system)
         : LabelledAugmentedPaving(grid,system.state_space(),system.auxiliary_mapping(),system.auxiliary_space()) { }
     template<class SYS> LabelledAugmentedPaving(BinaryTreePaving const& paving, SYS const& system)
+        : LabelledAugmentedPaving(paving,system.state_space(),system.auxiliary_mapping(),system.auxiliary_space()) { }
+    template<class SYS> LabelledAugmentedPaving(Paving const& paving, SYS const& system)
         : LabelledAugmentedPaving(paving,system.state_space(),system.auxiliary_mapping(),system.auxiliary_space()) { }
     template<class SYS> LabelledAugmentedPaving(LabelledGrid const& grid, SYS const& system)
         : LabelledAugmentedPaving(grid.euclidean_grid(),system.state_space(),system.auxiliary_mapping(),system.auxiliary_space()) {
@@ -80,20 +88,20 @@ class LabelledAugmentedPaving
 
     Void adjoin(LabelledAugmentedPaving const& other) {
         ARIADNE_PRECONDITION(this->_state_variables==other._state_variables);
-        this->state_paving().adjoin(other.state_paving()); }
+        this->state_paving().adjoin(static_cast<PavingInterface const&>(other.state_paving())); }
     Void restrict(LabelledAugmentedPaving const& other) {
         ARIADNE_PRECONDITION(this->_state_variables==other._state_variables);
-        this->state_paving().restrict(other.state_paving()); }
+        this->state_paving().restrict(static_cast<PavingInterface const&>(other.state_paving())); }
     Void remove(LabelledAugmentedPaving const& other) {
         ARIADNE_PRECONDITION(this->_state_variables==other._state_variables);
-        this->state_paving().remove(other.state_paving()); }
+        this->state_paving().remove(static_cast<PavingInterface const&>(other.state_paving())); }
 
     friend Bool subset(LabelledAugmentedPaving const& set1, LabelledAugmentedPaving const& set2) {
         ARIADNE_PRECONDITION(set1._state_variables==set2._state_variables);
-        return subset(set1.state_paving(),set2.state_paving()); }
+        return set1.state_paving().subset(static_cast<PavingInterface const&>(set2.state_paving())); }
     friend Bool intersect(LabelledAugmentedPaving const& set1, LabelledAugmentedPaving const& set2) {
         ARIADNE_PRECONDITION(set1._state_variables==set2._state_variables);
-        return intersect(set1.state_paving(),set2.state_paving()); }
+        return set1.state_paving().intersects(static_cast<PavingInterface const&>(set2.state_paving())); }
 
     virtual LabelledAugmentedPaving* clone() const override { return new LabelledAugmentedPaving(*this); }
 
