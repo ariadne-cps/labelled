@@ -28,6 +28,8 @@
 #ifndef ARIADNE_REASONING_LABELLED_GRID_HPP
 #define ARIADNE_REASONING_LABELLED_GRID_HPP
 #include "paving/binary_tree_paving.hpp"
+#include "paving/paving_interface.hpp"
+#include <utility>
 #include "symbolic/identifier.hpp"
 #include "symbolic/space.hpp"
 #include "function/function.hpp"
@@ -51,6 +53,29 @@ struct LabelledGrid {
     List<Identifier> _variables;
 };
 
+
+
+// Representation-neutral paving: the concrete backend is selected once
+// when the Paving value is supplied, and retained by subsequent operations.
+struct LabelledPaving {
+  public:
+    LabelledPaving(Paving paving, RealSpace const& space)
+        : _set(std::move(paving)), _variables(space.variable_names()) {
+        ARIADNE_PRECONDITION(_set.dimension()==space.dimension());
+    }
+    LabelledPaving(Grid const& grid, RealSpace const& space)
+        : LabelledPaving(Paving(new BinaryTreePaving(grid)),space) { }
+    explicit LabelledPaving(LabelledGrid const& grid)
+        : LabelledPaving(grid.euclidean_grid(),grid.space()) { }
+
+    Paving& euclidean_set() { return _set; }
+    Paving const& euclidean_set() const { return _set; }
+    RealSpace space() const { return RealSpace(_variables); }
+
+  private:
+    Paving _set;
+    List<Identifier> _variables;
+};
 
 struct LabelledBinaryTreePaving {
   public:
