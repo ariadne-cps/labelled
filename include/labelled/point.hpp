@@ -30,37 +30,43 @@
 #define ARIADNE_LABELLED_POINT_HPP
 
 #include "geometry/point.hpp"
+#include "labelled/figure.hpp"
+#include "labelled/graphics_interface.hpp"
+#include "labelled/labelled.hpp"
+#include "symbolic/assignment.hpp"
 #include "symbolic/identifier.hpp"
 #include "symbolic/space.hpp"
-#include "symbolic/assignment.hpp"
-#include "labelled/labelled.hpp"
-#include "labelled/graphics_interface.hpp"
-#include "labelled/figure.hpp"
 
 namespace Ariadne {
 
-template<class X> class LabelledPoint;
+template<class X>
+class LabelledPoint;
 
 using LabelledRealPoint = LabelledPoint<Real>;
-template<class IVL> class LabelledBox;
+template<class IVL>
+class LabelledBox;
 using LabelledExactBoxType = LabelledBox<ExactIntervalType>;
 
 template<class X>
 /** @brief LabelledPoint: points with named variables and labelled drawing support. */
-class LabelledPoint : public LabelledDrawable2dInterface, public Point<X>, public Labelled {
+class LabelledPoint : public LabelledDrawable2dInterface,
+                      public Point<X>,
+                      public Labelled {
   public:
     /** @brief Construct or operate on the labelled geometric object. */
-    LabelledPoint(RealSpace const& state_space, Point<X> const& pt);
+    LabelledPoint(const RealSpace& state_space, const Point<X>& pt);
     /** @brief Construct or operate on the labelled geometric object. */
-    LabelledPoint(List<Assignment<RealVariable,X>> const& val);
+    LabelledPoint(const List<Assignment<RealVariable, X>>& val);
     /** @brief Construct or operate on the labelled geometric object. */
-    LabelledPoint(InitializerList<Assignment<RealVariable,X>> const& val);
-    template<class T> requires Convertible<T,X>
+    LabelledPoint(const InitializerList<Assignment<RealVariable, X>>& val);
+    template<class T>
+        requires Convertible<T, X>
     /** @brief Return the corresponding named variable space. */
-    LabelledPoint(const LabelledPoint<T>& pt) : Point<X>(pt), Labelled(pt.space()) { }
-    template<class Y, class... PRS> requires Constructible<X,Y,PRS...>
+    LabelledPoint(const LabelledPoint<T>& pt) : Point<X>(pt), Labelled(pt.space()) {}
+    template<class Y, class... PRS>
+        requires Constructible<X, Y, PRS...>
     /** @brief Return the corresponding named variable space. */
-    LabelledPoint(const LabelledPoint<Y>& pt, PRS... prs) : Point<X>(pt,prs...), Labelled(pt.space()) { }
+    LabelledPoint(const LabelledPoint<Y>& pt, PRS... prs) : Point<X>(pt, prs...), Labelled(pt.space()) {}
 
     /** @brief Create a copy of the labelled drawable. */
     LabelledPoint* labelled_clone() const override;
@@ -69,10 +75,11 @@ class LabelledPoint : public LabelledDrawable2dInterface, public Point<X>, publi
 };
 
 /** @brief Project coordinates into the requested variable space. */
-template<class X> inline LabelledPoint<X> project(LabelledPoint<X> const& pt, Variables2d const& v) {
+template<class X>
+inline LabelledPoint<X> project(const LabelledPoint<X>& pt, const Variables2d& v) {
     /** @brief Project coordinates into the requested variable space. */
-    Projection2d p = projection(pt.space(),v);
-    return LabelledPoint<X>(pt.space(),project(static_cast<Point<X> const&>(pt),p));
+    Projection2d p = projection(pt.space(), v);
+    return LabelledPoint<X>(pt.space(), project(static_cast<const Point<X>&>(pt), p));
 }
 
 } // namespace Ariadne

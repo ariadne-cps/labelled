@@ -29,29 +29,27 @@
 #ifndef ARIADNE_LABELLED_TENSOR_DRAWING_HPP
 #define ARIADNE_LABELLED_TENSOR_DRAWING_HPP
 
-
 #include "algebra/tensor.hpp"
-#include "numeric/floatdp.hpp"
-#include "numeric/floatmp.hpp"
 #include "labelled/figure.hpp"
 #include "labelled/graphics_interface.hpp"
+#include "numeric/floatdp.hpp"
+#include "numeric/floatmp.hpp"
 
 namespace Ariadne {
 
 template<SizeType N, class PR>
 /** @brief TensorDrawable: drawing adapters for rank-two tensors. */
 class TensorDrawable
-    : public LabelledDrawable2dInterface
-    , public Drawable2dInterface
-{
+    : public LabelledDrawable2dInterface,
+      public Drawable2dInterface {
     static_assert(N == 2u, "TensorDrawable supports rank-2 tensors only.");
 
     using X = Float<PR>;
-    Tensor<N,X> _tensor;
+    Tensor<N, X> _tensor;
 
   public:
     /** @brief Construct a TensorDrawable instance. */
-    explicit TensorDrawable(Tensor<N,X> const& tensor) : _tensor(tensor) { }
+    explicit TensorDrawable(const Tensor<N, X>& tensor) : _tensor(tensor) {}
 
     /** @brief Create a copy of the labelled drawable. */
     TensorDrawable* clone() const override { return new TensorDrawable(*this); }
@@ -62,33 +60,32 @@ class TensorDrawable
     DimensionType dimension() const override { return _tensor.rank(); }
 
     /** @brief Render the object in the selected coordinate system. */
-    Void draw(CanvasInterface& canvas, Projection2d const&) const override {
+    Void draw(CanvasInterface& canvas, const Projection2d&) const override {
         this->_draw_rank2(canvas);
     }
 
     /** @brief Render the object in the selected coordinate system. */
-    Void draw(CanvasInterface& canvas, Variables2d const&) const override {
+    Void draw(CanvasInterface& canvas, const Variables2d&) const override {
         this->_draw_rank2(canvas);
     }
 
   private:
     /** @brief Construct or operate on the labelled geometric object. */
     Void _draw_rank2(CanvasInterface& canvas) const {
-        for (SizeType frame=0; frame!=_tensor.size(1); ++frame) {
-            canvas.move_to(0.0, _tensor[{0,frame}].get_d());
-            for (SizeType i=1; i!=_tensor.size(0); ++i) {
-                canvas.line_to(numeric_cast<double>(i), _tensor[{i,frame}].get_d());
+        for (SizeType frame = 0; frame != _tensor.size(1); ++frame) {
+            canvas.move_to(0.0, _tensor[{0, frame}].get_d());
+            for (SizeType i = 1; i != _tensor.size(0); ++i) {
+                canvas.line_to(numeric_cast<double>(i), _tensor[{i, frame}].get_d());
             }
             canvas.fill();
         }
     }
-
 };
 
 template<SizeType N, class PR>
 /** @brief Construct or operate on the labelled geometric object. */
-TensorDrawable<N,PR> tensor_drawable(Tensor<N,Float<PR>> const& tensor) {
-    return TensorDrawable<N,PR>(tensor);
+TensorDrawable<N, PR> tensor_drawable(const Tensor<N, Float<PR>>& tensor) {
+    return TensorDrawable<N, PR>(tensor);
 }
 
 } // namespace Ariadne

@@ -29,8 +29,8 @@
 #ifndef ARIADNE_LABELLED_CURVE_HPP
 #define ARIADNE_LABELLED_CURVE_HPP
 
-#include "set/curve.hpp"
 #include "labelled/point.hpp"
+#include "set/curve.hpp"
 
 namespace Ariadne {
 
@@ -38,8 +38,7 @@ namespace Ariadne {
 class LabelledInterpolatedCurve
     : public LabelledDrawable2dInterface,
       public InterpolatedCurve,
-      public Labelled
-{
+      public Labelled {
   public:
     typedef LabelledPoint<FloatDPApproximation> PointType;
 

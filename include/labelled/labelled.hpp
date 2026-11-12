@@ -37,10 +37,10 @@ namespace Ariadne {
 class Labelled {
   public:
     /** @brief Return the corresponding named variable space. */
-    explicit Labelled(RealSpace const& space) : _space(space) { }
+    explicit Labelled(const RealSpace& space) : _space(space) {}
 
     /** @brief Return the corresponding named variable space. */
-    RealSpace const& space() const { return _space; }
+    const RealSpace& space() const { return _space; }
     /** @brief Return the corresponding named variable space. */
     Set<RealVariable> variables() const { return _space.variables(); }
 

@@ -34,45 +34,43 @@ namespace Ariadne {
 
 namespace {
 
-RenderingInterval coordinate_interval(ApproximateDoubleInterval const& ivl) {
+RenderingInterval coordinate_interval(const ApproximateDoubleInterval& ivl) {
     return RenderingInterval(numeric_cast<double>(ivl.lower_bound()),
                              numeric_cast<double>(ivl.upper_bound()));
 }
 
-Bool has_axis_bounds(Variables2d const& vars, Map<RealVariable,ApproximateDoubleInterval> const& bounds) {
-    return bounds.find(vars.x())!=bounds.end() && bounds.find(vars.y())!=bounds.end();
+Bool has_axis_bounds(const Variables2d& vars, const Map<RealVariable, ApproximateDoubleInterval>& bounds) {
+    return bounds.find(vars.x()) != bounds.end() && bounds.find(vars.y()) != bounds.end();
 }
 
-RenderingBox coordinate_box(Variables2d const& vars, Map<RealVariable,ApproximateDoubleInterval> const& bounds) {
-    return RenderingBox({
-        coordinate_interval(bounds[vars.x()]),
-        coordinate_interval(bounds[vars.y()])
-    });
+RenderingBox coordinate_box(const Variables2d& vars, const Map<RealVariable, ApproximateDoubleInterval>& bounds) {
+    return RenderingBox({coordinate_interval(bounds[vars.x()]),
+                         coordinate_interval(bounds[vars.y()])});
 }
 
 // Convert the mathematical bounds explicitly: the interval value types are
 // constructible, but maps with different value types are not implicitly convertible.
-Map<RealVariable,ApproximateDoubleInterval> coordinate_bounds(
-    VariablesBox<ApproximateIntervalType> const& box) {
-    Map<RealVariable,ApproximateDoubleInterval> bounds;
-    for (auto const& [variable, interval] : box.bounds()) {
-        bounds.insert(variable,ApproximateDoubleInterval(
-            numeric_cast<double>(interval.lower_bound()),
-            numeric_cast<double>(interval.upper_bound())));
+Map<RealVariable, ApproximateDoubleInterval> coordinate_bounds(
+    const VariablesBox<ApproximateIntervalType>& box) {
+    Map<RealVariable, ApproximateDoubleInterval> bounds;
+    for (const auto& [variable, interval]: box.bounds()) {
+        bounds.insert(variable, ApproximateDoubleInterval(
+                                    numeric_cast<double>(interval.lower_bound()),
+                                    numeric_cast<double>(interval.upper_bound())));
     }
     return bounds;
 }
 
 class LabelledDrawableAdapter final : public Drawable2dInterface {
   public:
-    LabelledDrawableAdapter(LabelledDrawable2dInterface const& shape, Variables2d const& variables)
-        : _shape(shape.labelled_clone()), _variables(variables) { }
+    LabelledDrawableAdapter(const LabelledDrawable2dInterface& shape, const Variables2d& variables)
+        : _shape(shape.labelled_clone()), _variables(variables) {}
 
     LabelledDrawableAdapter* clone() const override { return new LabelledDrawableAdapter(*this); }
     DimensionType dimension() const override { return 2u; }
 
-    Void draw(CanvasInterface& canvas, Projection2d const&) const override {
-        _shape->draw(canvas,_variables);
+    Void draw(CanvasInterface& canvas, const Projection2d&) const override {
+        _shape->draw(canvas, _variables);
     }
 
   private:
@@ -82,95 +80,95 @@ class LabelledDrawableAdapter final : public Drawable2dInterface {
 
 } // namespace
 
-Variables2d::Variables2d(const RealVariable& x, const RealVariable& y) : _x(x.name()), _y(y.name()) { }
+Variables2d::Variables2d(const RealVariable& x, const RealVariable& y) : _x(x.name()), _y(y.name()) {}
 RealVariable Variables2d::x() const { return RealVariable(_x); }
 RealVariable Variables2d::y() const { return RealVariable(_y); }
 
 Axes2d::Axes2d(const ApproximateDoubleVariableInterval x, const ApproximateDoubleVariableInterval& y)
-    : variables(x.variable(),y.variable()), bounds() {
-    bounds.insert(x.variable(),x.interval());
-    bounds.insert(y.variable(),y.interval());
+    : variables(x.variable(), y.variable()), bounds() {
+    bounds.insert(x.variable(), x.interval());
+    bounds.insert(y.variable(), y.interval());
 }
 
 Axes2d::Axes2d(ApproximateDouble xl, const RealVariable& x, ApproximateDouble xu,
                ApproximateDouble yl, const RealVariable& y, ApproximateDouble yu)
-    : variables(x,y), bounds() {
-    bounds.insert(x,ApproximateDoubleInterval(xl,xu));
-    bounds.insert(y,ApproximateDoubleInterval(yl,yu));
+    : variables(x, y), bounds() {
+    bounds.insert(x, ApproximateDoubleInterval(xl, xu));
+    bounds.insert(y, ApproximateDoubleInterval(yl, yu));
 }
 
 Bool valid_axis_variables(const RealSpace& space, const Variables2d& variables) {
-    return ((variables.x().name()==TimeVariable().name()) || space.contains(variables.x()))
-        && space.contains(variables.y());
+    return ((variables.x().name() == TimeVariable().name()) || space.contains(variables.x())) && space.contains(variables.y());
 }
 
 Projection2d projection(const RealSpace& space, const Variables2d& variables) {
-    ARIADNE_ASSERT(valid_axis_variables(space,variables));
-    DimensionType x_index=static_cast<DimensionType>(
-        (variables.x()==TimeVariable() && !space.contains(variables.x()))
-            ? space.dimension() : space.index(variables.x()));
-    DimensionType y_index=static_cast<DimensionType>(space.index(variables.y()));
-    return Projection2d(space.dimension(),x_index,y_index);
+    ARIADNE_ASSERT(valid_axis_variables(space, variables));
+    DimensionType x_index = static_cast<DimensionType>(
+        (variables.x() == TimeVariable() && !space.contains(variables.x()))
+            ? space.dimension()
+            : space.index(variables.x()));
+    DimensionType y_index = static_cast<DimensionType>(space.index(variables.y()));
+    return Projection2d(space.dimension(), x_index, y_index);
 }
 
 struct LabelledFigure::Data {
-    Data(Variables2d const& vars, Map<RealVariable,ApproximateDoubleInterval> const& bnds)
+    Data(const Variables2d& vars, const Map<RealVariable, ApproximateDoubleInterval>& bnds)
         : variables(vars), bounds(bnds),
-          figure(coordinate_box(vars,bnds),Projection2d(2u,0u,1u)) {
-        figure.set_axis_labels(vars.x().name(),vars.y().name());
+          figure(coordinate_box(vars, bnds), Projection2d(2u, 0u, 1u)) {
+        figure.set_axis_labels(vars.x().name(), vars.y().name());
     }
 
     Void synchronise() {
-        figure.set_axis_labels(variables.x().name(),variables.y().name());
-        if(has_axis_bounds(variables,bounds)) {
-            figure.set_bounding_box(coordinate_box(variables,bounds));
+        figure.set_axis_labels(variables.x().name(), variables.y().name());
+        if (has_axis_bounds(variables, bounds)) {
+            figure.set_bounding_box(coordinate_box(variables, bounds));
         }
     }
 
     Variables2d variables;
-    Map<RealVariable,ApproximateDoubleInterval> bounds;
+    Map<RealVariable, ApproximateDoubleInterval> bounds;
     Figure figure;
 };
 
 LabelledFigure::~LabelledFigure() { delete _data; }
 
 LabelledFigure::LabelledFigure(const Axes2d& axes)
-    : _data(new Data(axes.variables,axes.bounds)) { }
+    : _data(new Data(axes.variables, axes.bounds)) {}
 
 LabelledFigure::LabelledFigure(const Variables2d& vars, const VariablesBox<ApproximateIntervalType>& bbx)
     : _data(nullptr) {
-    ARIADNE_PRECONDITION_MSG(bbx.bounds().size()>=2,"The box must be at least two-dimensional.")
-    Map<RealVariable,ApproximateDoubleInterval> bounds=coordinate_bounds(bbx);
-    ARIADNE_PRECONDITION_MSG(has_axis_bounds(vars,bounds),"The box must contain bounds for both axis variables.")
-    _data=new Data(vars,bounds);
+    ARIADNE_PRECONDITION_MSG(bbx.bounds().size() >= 2, "The box must be at least two-dimensional.")
+    Map<RealVariable, ApproximateDoubleInterval> bounds = coordinate_bounds(bbx);
+    ARIADNE_PRECONDITION_MSG(has_axis_bounds(vars, bounds), "The box must contain bounds for both axis variables.")
+    _data = new Data(vars, bounds);
 }
 
 Void LabelledFigure::set_axes(const Axes2d& axes) {
-    _data->variables=axes.variables;
-    _data->bounds=axes.bounds;
+    _data->variables = axes.variables;
+    _data->bounds = axes.bounds;
     _data->synchronise();
 }
 
 Void LabelledFigure::set_bounds(const RealVariable& x, const ApproximateDoubleInterval& ivl) {
-    _data->bounds.insert(x,ivl);
+    _data->bounds.insert(x, ivl);
     _data->synchronise();
 }
 
-Void LabelledFigure::set_bounds(const Map<RealVariable,ApproximateDoubleInterval>& b) {
-    _data->bounds=b;
+Void LabelledFigure::set_bounds(const Map<RealVariable, ApproximateDoubleInterval>& b) {
+    _data->bounds = b;
     _data->synchronise();
 }
 
 Void LabelledFigure::set_bounding_box(const VariablesBox<ApproximateIntervalType>& bx) {
-    _data->bounds=coordinate_bounds(bx);
+    _data->bounds = coordinate_bounds(bx);
     _data->synchronise();
 }
 
 RenderingProperties& LabelledFigure::properties() { return _data->figure.properties(); }
-RenderingProperties const& LabelledFigure::properties() const { return _data->figure.properties(); }
+const RenderingProperties& LabelledFigure::properties() const { return _data->figure.properties(); }
 
 LabelledFigure& LabelledFigure::draw(const LabelledDrawable2dInterface& shape) {
-    LabelledDrawableAdapter adapter(shape,_data->variables);
+    LabelledDrawableAdapter adapter(shape, _data->variables);
     _data->figure.draw(adapter);
     return *this;
 }
@@ -186,7 +184,7 @@ LabelledFigure& LabelledFigure::set_animated(Bool b) {
 }
 
 Void LabelledFigure::_paint_all(CanvasInterface& canvas) const {
-    ARIADNE_ASSERT(_data->variables.x().name()!="" && _data->variables.y().name()!="");
+    ARIADNE_ASSERT(_data->variables.x().name() != "" && _data->variables.y().name() != "");
     _data->figure._paint_all(canvas);
 }
 
@@ -195,7 +193,7 @@ Void LabelledFigure::write(const Char* filename) const {
 }
 
 Void LabelledFigure::write(const Char* filename, Nat nx, Nat ny) const {
-    _data->figure.write(filename,nx,ny);
+    _data->figure.write(filename, nx, ny);
 }
 
 Void draw(LabelledFigure& fig, const LabelledDrawable2dInterface& shape) {

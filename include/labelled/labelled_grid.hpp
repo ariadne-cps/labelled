@@ -27,55 +27,57 @@
  */
 #ifndef ARIADNE_REASONING_LABELLED_GRID_HPP
 #define ARIADNE_REASONING_LABELLED_GRID_HPP
+#include <utility>
+
+#include "function/function.hpp"
 #include "paving/binary_tree_paving.hpp"
 #include "paving/paving_interface.hpp"
-#include <utility>
 #include "symbolic/identifier.hpp"
 #include "symbolic/space.hpp"
-#include "function/function.hpp"
 #include "utility/container.hpp"
 
 namespace Ariadne {
 
 /** @brief LabelledGrid: grids and pavings with named coordinate spaces. */
 struct LabelledGrid {
-    template<class SYS> explicit LabelledGrid(SYS const& system)
-        : LabelledGrid(Grid(system.state_space().dimension()),system.state_space()) { }
-    LabelledGrid(Grid const& grid, RealSpace const& space)
-        : _grid(grid), _variables(space.variable_names()) { }
+    template<class SYS>
+    explicit LabelledGrid(SYS const& system)
+        : LabelledGrid(Grid(system.state_space().dimension()), system.state_space()) {}
+    LabelledGrid(const Grid& grid, const RealSpace& space)
+        : _grid(grid), _variables(space.variable_names()) {}
 
     /** @brief Return the underlying grid. */
-    Grid const& euclidean_grid() const { return this->_grid; }
+    const Grid& euclidean_grid() const { return this->_grid; }
     /** @brief Return the corresponding named variable space. */
     const RealSpace space() const { return RealSpace(this->_variables); }
 
     /** @brief Write or compare labelled objects. */
-    friend OutputStream& operator<<(OutputStream& os, LabelledGrid const& grid) {
-        return os << "LabelledGrid( " << grid._grid << ", " << grid._variables << ")"; }
+    friend OutputStream& operator<<(OutputStream& os, const LabelledGrid& grid) {
+        return os << "LabelledGrid( " << grid._grid << ", " << grid._variables << ")";
+    }
+
   private:
     Grid _grid;
     List<Identifier> _variables;
 };
 
-
-
 // Representation-neutral paving: the concrete backend is selected once
 // when the Paving value is supplied, and retained by subsequent operations.
 struct LabelledPaving {
   public:
-    LabelledPaving(Paving paving, RealSpace const& space)
+    LabelledPaving(Paving paving, const RealSpace& space)
         : _set(std::move(paving)), _variables(space.variable_names()) {
-        ARIADNE_PRECONDITION(_set.dimension()==space.dimension());
+        ARIADNE_PRECONDITION(_set.dimension() == space.dimension());
     }
-    LabelledPaving(Grid const& grid, RealSpace const& space)
-        : LabelledPaving(Paving(new BinaryTreePaving(grid)),space) { }
-    explicit LabelledPaving(LabelledGrid const& grid)
-        : LabelledPaving(grid.euclidean_grid(),grid.space()) { }
+    LabelledPaving(const Grid& grid, const RealSpace& space)
+        : LabelledPaving(Paving(new BinaryTreePaving(grid)), space) {}
+    explicit LabelledPaving(const LabelledGrid& grid)
+        : LabelledPaving(grid.euclidean_grid(), grid.space()) {}
 
     /** @brief Access the underlying Euclidean representation. */
     Paving& euclidean_set() { return _set; }
     /** @brief Access the underlying Euclidean representation. */
-    Paving const& euclidean_set() const { return _set; }
+    const Paving& euclidean_set() const { return _set; }
     /** @brief Return the corresponding named variable space. */
     RealSpace space() const { return RealSpace(_variables); }
 
@@ -87,49 +89,51 @@ struct LabelledPaving {
 /** @brief LabelledBinaryTreePaving: grids and pavings with named coordinate spaces. */
 struct LabelledBinaryTreePaving {
   public:
-    LabelledBinaryTreePaving(Grid const& grid, RealSpace const& space)
-        : _set(grid), _variables(space.variable_names()) { }
-    LabelledBinaryTreePaving(BinaryTreePaving set, RealSpace const& space)
-        : _set(set), _variables(space.variable_names()) { }
-    explicit LabelledBinaryTreePaving(LabelledGrid const& lgrid)
-        : LabelledBinaryTreePaving(lgrid.euclidean_grid(),lgrid.space()) { }
+    LabelledBinaryTreePaving(const Grid& grid, const RealSpace& space)
+        : _set(grid), _variables(space.variable_names()) {}
+    LabelledBinaryTreePaving(BinaryTreePaving set, const RealSpace& space)
+        : _set(set), _variables(space.variable_names()) {}
+    explicit LabelledBinaryTreePaving(const LabelledGrid& lgrid)
+        : LabelledBinaryTreePaving(lgrid.euclidean_grid(), lgrid.space()) {}
     /** @brief Access the underlying Euclidean representation. */
     BinaryTreePaving& euclidean_set() { return this->_set; }
     /** @brief Access the underlying Euclidean representation. */
-    BinaryTreePaving const& euclidean_set() const { return this->_set; }
+    const BinaryTreePaving& euclidean_set() const { return this->_set; }
     /** @brief Return the corresponding named variable space. */
     const RealSpace space() const { return RealSpace(this->_variables); }
+
   private:
     BinaryTreePaving _set;
     List<Identifier> _variables;
 };
 
-
 /** @brief LabelledStateAuxiliaryGrid: grids and pavings with named coordinate spaces. */
 struct LabelledStateAuxiliaryGrid {
-    template<class SYS> explicit LabelledStateAuxiliaryGrid(SYS const& system)
-        : LabelledStateAuxiliaryGrid(Grid(system.state_space().dimension()),system.state_space(),
-                       system.auxiliary_mapping(),system.auxiliary_space()) { }
+    template<class SYS>
+    explicit LabelledStateAuxiliaryGrid(SYS const& system)
+        : LabelledStateAuxiliaryGrid(Grid(system.state_space().dimension()), system.state_space(),
+                                     system.auxiliary_mapping(), system.auxiliary_space()) {}
     /** @brief Construct or operate on the labelled geometric object. */
-    LabelledStateAuxiliaryGrid(Grid const& grid, RealSpace const& state_space);
-    LabelledStateAuxiliaryGrid(Grid const& grid, RealSpace const& state_space,
-                 EffectiveVectorMultivariateFunction const& auxiliary_mapping, RealSpace const& auxiliary_space)
-        : _grid(grid), _auxiliary_mapping(auxiliary_mapping)
-        , _state_variables(state_space.variable_names()),  _auxiliary_variables(auxiliary_space.variable_names()) { }
+    LabelledStateAuxiliaryGrid(const Grid& grid, const RealSpace& state_space);
+    LabelledStateAuxiliaryGrid(const Grid& grid, const RealSpace& state_space,
+                               const EffectiveVectorMultivariateFunction& auxiliary_mapping, const RealSpace& auxiliary_space)
+        : _grid(grid), _auxiliary_mapping(auxiliary_mapping), _state_variables(state_space.variable_names()), _auxiliary_variables(auxiliary_space.variable_names()) {}
 
     /** @brief Return the underlying grid. */
-    Grid const& euclidean_grid() const { return this->_grid; }
+    const Grid& euclidean_grid() const { return this->_grid; }
     /** @brief Return the associated function or mapping. */
-    EffectiveVectorMultivariateFunction const& auxiliary_mapping() const { return this->_auxiliary_mapping; }
+    const EffectiveVectorMultivariateFunction& auxiliary_mapping() const { return this->_auxiliary_mapping; }
     /** @brief Return the corresponding named variable space. */
     const RealSpace state_space() const { return RealSpace(this->_state_variables); }
     /** @brief Return the corresponding named variable space. */
     const RealSpace auxiliary_space() const { return RealSpace(this->_auxiliary_variables); }
 
     /** @brief Write or compare labelled objects. */
-    friend OutputStream& operator<<(OutputStream& os, LabelledStateAuxiliaryGrid const& grid) {
+    friend OutputStream& operator<<(OutputStream& os, const LabelledStateAuxiliaryGrid& grid) {
         return os << "LabelledStateAuxiliaryGrid( " << grid._grid << ", " << grid._state_variables << ", "
-                  << grid._auxiliary_mapping << ", " << grid._auxiliary_variables << ")"; }
+                  << grid._auxiliary_mapping << ", " << grid._auxiliary_variables << ")";
+    }
+
   private:
     Grid _grid;
     EffectiveVectorMultivariateFunction _auxiliary_mapping;

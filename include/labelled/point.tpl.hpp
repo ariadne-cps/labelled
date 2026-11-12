@@ -33,26 +33,31 @@
 
 namespace Ariadne {
 
-template<class X> LabelledPoint<X>::LabelledPoint(RealSpace const& state_space, Point<X> const& pt)
-    : Point<X>(pt), Labelled(state_space) { }
+template<class X>
+LabelledPoint<X>::LabelledPoint(const RealSpace& state_space, const Point<X>& pt)
+    : Point<X>(pt), Labelled(state_space) {}
 
-template<class X> LabelledPoint<X>::LabelledPoint(List<Assignment<RealVariable,X>> const& x)
-    : Point<X>(x.size(),[&x](SizeType i){return x[i].right_hand_side();}),
-      Labelled(RealSpace(left_hand_sides(x))) { }
+template<class X>
+LabelledPoint<X>::LabelledPoint(const List<Assignment<RealVariable, X>>& x)
+    : Point<X>(x.size(), [&x](SizeType i) { return x[i].right_hand_side(); }),
+      Labelled(RealSpace(left_hand_sides(x))) {}
 
-template<class X> LabelledPoint<X>::LabelledPoint(InitializerList<Assignment<RealVariable,X>> const& x)
-    : LabelledPoint<X>(List<Assignment<RealVariable,X>>(x)) { }
+template<class X>
+LabelledPoint<X>::LabelledPoint(const InitializerList<Assignment<RealVariable, X>>& x)
+    : LabelledPoint<X>(List<Assignment<RealVariable, X>>(x)) {}
 
 /** @brief Create a copy of the labelled drawable. */
-template<class X> LabelledPoint<X>* LabelledPoint<X>::labelled_clone() const {
+template<class X>
+LabelledPoint<X>* LabelledPoint<X>::labelled_clone() const {
     return new LabelledPoint(*this);
 }
 
 /** @brief Render the object in the selected coordinate system. */
-template<class X> Void LabelledPoint<X>::draw(CanvasInterface& canvas, const Variables2d& axes) const {
+template<class X>
+Void LabelledPoint<X>::draw(CanvasInterface& canvas, const Variables2d& axes) const {
     /** @brief Project coordinates into the requested variable space. */
-    Projection2d proj=projection(this->space(),axes);
-    Ariadne::draw(canvas,proj,static_cast<Point<X> const&>(*this));
+    Projection2d proj = projection(this->space(), axes);
+    Ariadne::draw(canvas, proj, static_cast<const Point<X>&>(*this));
 }
 
 } // namespace Ariadne
