@@ -6,24 +6,24 @@
  ****************************************************************************/
 
 /*
- *  This file is part of Ariadne.
+ *  This file is part of Ariadne Labelled.
  *
- *  Ariadne is free software: you can redistribute it and/or modify
+ *  Ariadne Labelled is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  Ariadne is distributed in the hope that it will be useful,
+ *  Ariadne Labelled is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
+ *  along with Ariadne Labelled.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/*! \file labelled/labelled_grid.hpp
- *  \brief Grids, pavings and state/auxiliary grids with named variables.
+/** @file labelled/labelled_grid.hpp
+ *  @brief Grids and pavings with named coordinate spaces.
  */
 #ifndef ARIADNE_REASONING_LABELLED_GRID_HPP
 #define ARIADNE_REASONING_LABELLED_GRID_HPP
@@ -37,6 +37,7 @@
 
 namespace Ariadne {
 
+/** @brief LabelledGrid: grids and pavings with named coordinate spaces. */
 struct LabelledGrid {
     template<class SYS> explicit LabelledGrid(SYS const& system)
         : LabelledGrid(Grid(system.state_space().dimension()),system.state_space()) { }
@@ -46,6 +47,7 @@ struct LabelledGrid {
     Grid const& euclidean_grid() const { return this->_grid; }
     const RealSpace space() const { return RealSpace(this->_variables); }
 
+    /** @brief Write or compare labelled objects. */
     friend OutputStream& operator<<(OutputStream& os, LabelledGrid const& grid) {
         return os << "LabelledGrid( " << grid._grid << ", " << grid._variables << ")"; }
   private:
@@ -77,6 +79,7 @@ struct LabelledPaving {
     List<Identifier> _variables;
 };
 
+/** @brief LabelledBinaryTreePaving: grids and pavings with named coordinate spaces. */
 struct LabelledBinaryTreePaving {
   public:
     LabelledBinaryTreePaving(Grid const& grid, RealSpace const& space)
@@ -94,10 +97,12 @@ struct LabelledBinaryTreePaving {
 };
 
 
+/** @brief LabelledStateAuxiliaryGrid: grids and pavings with named coordinate spaces. */
 struct LabelledStateAuxiliaryGrid {
     template<class SYS> explicit LabelledStateAuxiliaryGrid(SYS const& system)
         : LabelledStateAuxiliaryGrid(Grid(system.state_space().dimension()),system.state_space(),
                        system.auxiliary_mapping(),system.auxiliary_space()) { }
+    /** @brief Construct or operate on the labelled geometric object. */
     LabelledStateAuxiliaryGrid(Grid const& grid, RealSpace const& state_space);
     LabelledStateAuxiliaryGrid(Grid const& grid, RealSpace const& state_space,
                  EffectiveVectorMultivariateFunction const& auxiliary_mapping, RealSpace const& auxiliary_space)
@@ -109,6 +114,7 @@ struct LabelledStateAuxiliaryGrid {
     const RealSpace state_space() const { return RealSpace(this->_state_variables); }
     const RealSpace auxiliary_space() const { return RealSpace(this->_auxiliary_variables); }
 
+    /** @brief Write or compare labelled objects. */
     friend OutputStream& operator<<(OutputStream& os, LabelledStateAuxiliaryGrid const& grid) {
         return os << "LabelledStateAuxiliaryGrid( " << grid._grid << ", " << grid._state_variables << ", "
                   << grid._auxiliary_mapping << ", " << grid._auxiliary_variables << ")"; }

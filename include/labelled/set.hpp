@@ -1,3 +1,31 @@
+/***************************************************************************
+ *            labelled/set.hpp
+ *
+ *  Copyright  2026  Luca Geretti
+ *
+ ****************************************************************************/
+
+/*
+ *  This file is part of Ariadne Labelled.
+ *
+ *  Ariadne Labelled is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Ariadne Labelled is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Ariadne Labelled. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/** @file labelled/set.hpp
+ *  @brief Euclidean sets carrying named coordinate spaces.
+ */
+
 #ifndef ARIADNE_LABELLED_SET_HPP
 #define ARIADNE_LABELLED_SET_HPP
 
@@ -23,20 +51,26 @@ template<class S> class LabelledSet : public Labelled {
     EuclideanSetType const& continuous_set() const { return this->_set; }
     EuclideanSetType const& euclidean_set() const { return this->_set; }
     EuclideanSetType& euclidean_set() { return this->_set; }
+    /** @brief Return the underlying Euclidean set or its bounds. */
     EuclideanSetType euclidean_set(const RealSpace& vars) const {
         Array<SizeType> prj(vars.dimension()); for(SizeType i=0; i!=vars.dimension(); ++i) { prj[i]=this->space().index(vars.variable(i)); } return project(this->_set,prj); }
     DimensionType dimension() const { return this->euclidean_set().dimension(); }
+    /** @brief Apply the requested set operation. */
     template<class T> Void adjoin(LabelledSet<T> const& other) const {
         ARIADNE_ASSERT(this->space()==other.space()); this->euclidean_set().adjoin(other.euclidean_set()); }
     decltype(auto) bounding_box() const { return LabelledSet(this->space(),this->euclidean_set().bounding_box()); }
     decltype(auto) bounding_boxes() const { return LabelledSet(this->space(),this->euclidean_set().bounding_boxes()); }
+    /** @brief Render the object in the selected coordinate system. */
     Void draw(CanvasInterface& cnvs, Variables2d const& vars) const;
 
+    /** @brief Apply the requested set operation. */
     template<class E> friend decltype(auto) widen(const LabelledSet<S>& set, const E& e) {
         return LabelledSet(set.space(),widen(set.euclidean_set(),e)); }
+    /** @brief Write or compare labelled objects. */
     friend OutputStream& operator<<(OutputStream& os, const LabelledSet<S>& eset) {
         return os << "LabelledSet( space=" << eset.space() << ", set=" << eset.continuous_set() << " )"; }
 };
+/** @brief Construct or operate on the labelled geometric object. */
 template<class S> LabelledSet(const RealSpace&, const S&) -> LabelledSet<S>;
 
 template<class IVL> class LabelledBox : public LabelledSet<Box<IVL>> {
@@ -45,6 +79,7 @@ template<class IVL> class LabelledBox : public LabelledSet<Box<IVL>> {
     IVL operator[](const RealVariable& v) const { return this->euclidean_set()[this->space().index(v)]; }
 };
 
+/** @brief Write or compare labelled objects. */
 template<class S> EqualsType<S> operator==(LabelledSet<S> const& eset1, LabelledSet<S> const& eset2) {
     if(eset1.variables()!=eset2.variables()) { return false; }
     ARIADNE_ASSERT(eset1.space()==eset2.space());

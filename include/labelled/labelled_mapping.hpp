@@ -6,24 +6,24 @@
  ****************************************************************************/
 
 /*
- *  This file is part of Ariadne.
+ *  This file is part of Ariadne Labelled.
  *
- *  Ariadne is free software: you can redistribute it and/or modify
+ *  Ariadne Labelled is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  Ariadne is distributed in the hope that it will be useful,
+ *  Ariadne Labelled is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
+ *  along with Ariadne Labelled.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/*! \file labelled/labelled_mapping.hpp
- *  \brief A function equipped with argument and result variable spaces.
+/** @file labelled/labelled_mapping.hpp
+ *  @brief Mappings equipped with argument and result variable spaces.
  */
 #ifndef ARIADNE_REASONING_LABELLED_MAPPING_HPP
 #define ARIADNE_REASONING_LABELLED_MAPPING_HPP
@@ -34,6 +34,7 @@
 
 namespace Ariadne {
 
+/** @brief LabelledMapping: mappings equipped with argument and result variable spaces. */
 class LabelledMapping {
   public:
     LabelledMapping(RealSpace argument_space, EffectiveVectorMultivariateFunction mapping, RealSpace result_space)
