@@ -46,6 +46,7 @@ using DoubleVariableInterval = VariableInterval<Double>;
 /** @brief Variables2d: labelled figures, axes and drawing operations. */
 struct Variables2d {
     Identifier _x,_y;
+    /** @brief Construct a Variables2d instance. */
     Variables2d(const RealVariable& x, const RealVariable& y);
     /** @brief Return this coordinate variable. */
     RealVariable x() const;
@@ -55,6 +56,7 @@ struct Variables2d {
 
 /** @brief Axes2d: labelled figures, axes and drawing operations. */
 struct Axes2d {
+    /** @brief Construct a Axes2d instance. */
     Axes2d(const ApproximateDoubleVariableInterval x, const ApproximateDoubleVariableInterval& y);
     Axes2d(ApproximateDouble xl, const RealVariable& x, ApproximateDouble xu,
            ApproximateDouble yl, const RealVariable& y, ApproximateDouble yu);
@@ -68,6 +70,7 @@ Projection2d projection(const RealSpace& space, const Variables2d& variables);
 /** @brief LabelledFigure: labelled figures, axes and drawing operations. */
 class LabelledFigure {
   public:
+    /** @brief Destroy the labelled object. */
     ~LabelledFigure();
 
     /** @brief Construct or operate on the labelled geometric object. */
@@ -115,17 +118,25 @@ Void draw(LabelledFigure& fig, const LabelledDrawable2dInterface& shape);
 /** @brief Write or compare labelled objects. */
 LabelledFigure& operator<<(LabelledFigure& fig, const LabelledDrawable2dInterface& shape);
 
+/** @brief Apply a drawing style or append the labelled object to a figure. */
 inline LabelledFigure& operator<<(LabelledFigure& g, const LineStyle& ls) { g.properties().set_line_style(ls); return g; }
+/** @brief Apply a drawing style or append the labelled object to a figure. */
 inline LabelledFigure& operator<<(LabelledFigure& g, const LineWidth& lw) { g.properties().set_line_width(lw); return g; }
+/** @brief Apply a drawing style or append the labelled object to a figure. */
 inline LabelledFigure& operator<<(LabelledFigure& g, const LineColour& lc) { g.properties().set_line_colour(lc); return g; }
+/** @brief Apply a drawing style or append the labelled object to a figure. */
 inline LabelledFigure& operator<<(LabelledFigure& g, const FillStyle& fs) { g.properties().set_fill_style(fs); return g; }
+/** @brief Apply a drawing style or append the labelled object to a figure. */
 inline LabelledFigure& operator<<(LabelledFigure& g, const FillOpacity& fo) { g.properties().set_fill_opacity(fo); return g; }
+/** @brief Apply a drawing style or append the labelled object to a figure. */
 inline LabelledFigure& operator<<(LabelledFigure& g, const FillColour& fc) { g.properties().set_fill_colour(fc); return g; }
+/** @brief Apply a drawing style or append the labelled object to a figure. */
 inline LabelledFigure& operator<<(LabelledFigure& g, const Animated& animation) { g.properties().set_animated(animation); return g; }
 
 template<class S> class LabelledDrawableWrapper : public LabelledDrawable2dInterface {
     LabelledSet<S> _lset;
   public:
+    /** @brief Construct a LabelledDrawableWrapper instance. */
     LabelledDrawableWrapper(LabelledSet<S> lset) : _lset(lset) { }
     /** @brief Create a copy of the labelled drawable. */
     LabelledDrawableWrapper<S>* labelled_clone() const override { return new LabelledDrawableWrapper<S>(*this); }

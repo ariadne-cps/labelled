@@ -75,7 +75,9 @@ class LabelledAugmentedPaving
         : LabelledAugmentedPaving(paving.euclidean_set(),system.state_space(),system.auxiliary_mapping(),system.auxiliary_space()) {
             ARIADNE_PRECONDITION(paving.space()==system.state_space()); }
 
+    /** @brief Access the underlying Euclidean representation. */
     AugmentedPaving& euclidean_set() { return *this; }
+    /** @brief Access the underlying Euclidean representation. */
     AugmentedPaving const& euclidean_set() const { return *this; }
     /** @brief Return the associated named variable space. */
     const RealSpace state_space() const;

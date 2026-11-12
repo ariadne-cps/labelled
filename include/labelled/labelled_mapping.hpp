@@ -40,9 +40,13 @@ class LabelledMapping {
     LabelledMapping(RealSpace argument_space, EffectiveVectorMultivariateFunction mapping, RealSpace result_space)
         : _mapping(mapping), _argument_variables(argument_space.variable_names()), _result_variables(result_space.variable_names()) { }
 
+    /** @brief Return the corresponding named variable space. */
     const RealSpace argument_space() const { return RealSpace(this->_argument_variables); }
+    /** @brief Return the associated function or mapping. */
     const EffectiveVectorMultivariateFunction& mapping() const { return this->_mapping; }
+    /** @brief Return the associated function or mapping. */
     const EffectiveVectorMultivariateFunction& function() const { return this->_mapping; }
+    /** @brief Return the corresponding named variable space. */
     const RealSpace result_space() const { return RealSpace(this->_result_variables); }
   private:
     EffectiveVectorMultivariateFunction _mapping;

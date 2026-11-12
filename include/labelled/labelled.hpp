@@ -36,9 +36,12 @@ namespace Ariadne {
 /** @brief Labelled: named variable spaces attached to geometric objects. */
 class Labelled {
   public:
+    /** @brief Return the corresponding named variable space. */
     explicit Labelled(RealSpace const& space) : _space(space) { }
 
+    /** @brief Return the corresponding named variable space. */
     RealSpace const& space() const { return _space; }
+    /** @brief Return the corresponding named variable space. */
     Set<RealVariable> variables() const { return _space.variables(); }
 
   protected:

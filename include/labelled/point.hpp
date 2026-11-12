@@ -56,8 +56,10 @@ class LabelledPoint : public LabelledDrawable2dInterface, public Point<X>, publi
     /** @brief Construct or operate on the labelled geometric object. */
     LabelledPoint(InitializerList<Assignment<RealVariable,X>> const& val);
     template<class T> requires Convertible<T,X>
+    /** @brief Return the corresponding named variable space. */
     LabelledPoint(const LabelledPoint<T>& pt) : Point<X>(pt), Labelled(pt.space()) { }
     template<class Y, class... PRS> requires Constructible<X,Y,PRS...>
+    /** @brief Return the corresponding named variable space. */
     LabelledPoint(const LabelledPoint<Y>& pt, PRS... prs) : Point<X>(pt,prs...), Labelled(pt.space()) { }
 
     /** @brief Create a copy of the labelled drawable. */

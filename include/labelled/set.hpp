@@ -41,6 +41,7 @@ template<class S> class LabelledSet : public Labelled {
   public:
     typedef S EuclideanSetType;
 
+    /** @brief Return the number of dimensions. */
     LabelledSet(const RealSpace& spc, const EuclideanSetType& set) : Labelled(spc), _set(set) { ARIADNE_ASSERT_MSG(spc.dimension()==set.dimension(),"spc="<<spc<<", set.dimension()="<<set.dimension()); }
     template<class X> requires Same<S,Point<X>>
     explicit LabelledSet(VariablesPoint<X> const& point)
@@ -48,12 +49,16 @@ template<class S> class LabelledSet : public Labelled {
     template<class IVL> requires Same<S,Box<IVL>>
     explicit LabelledSet(VariablesBox<IVL> const& box)
         : Labelled(RealSpace(List<RealVariable>(box.variables()))), _set(box.euclidean_set(this->space())) { }
+    /** @brief Access the underlying Euclidean representation. */
     EuclideanSetType const& continuous_set() const { return this->_set; }
+    /** @brief Access the underlying Euclidean representation. */
     EuclideanSetType const& euclidean_set() const { return this->_set; }
+    /** @brief Access the underlying Euclidean representation. */
     EuclideanSetType& euclidean_set() { return this->_set; }
     /** @brief Return the underlying Euclidean set or its bounds. */
     EuclideanSetType euclidean_set(const RealSpace& vars) const {
         Array<SizeType> prj(vars.dimension()); for(SizeType i=0; i!=vars.dimension(); ++i) { prj[i]=this->space().index(vars.variable(i)); } return project(this->_set,prj); }
+    /** @brief Access the underlying Euclidean representation. */
     DimensionType dimension() const { return this->euclidean_set().dimension(); }
     /** @brief Apply the requested set operation. */
     template<class T> Void adjoin(LabelledSet<T> const& other) const {
@@ -75,6 +80,7 @@ template<class S> LabelledSet(const RealSpace&, const S&) -> LabelledSet<S>;
 
 template<class IVL> class LabelledBox : public LabelledSet<Box<IVL>> {
   public:
+    /** @brief Return the corresponding coordinate. */
     LabelledBox(const RealSpace& spc, const Box<IVL>& set) : LabelledSet<Box<IVL>>(spc,set) { }
     IVL operator[](const RealVariable& v) const { return this->euclidean_set()[this->space().index(v)]; }
 };

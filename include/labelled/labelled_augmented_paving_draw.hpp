@@ -46,6 +46,7 @@ inline Void draw(CanvasInterface& canvas, Variables2d const& axes, LabelledAugme
 /** @brief LabelledAugmentedPavingDrawable: drawing adapters for labelled augmented pavings. */
 class LabelledAugmentedPavingDrawable final : public LabelledDrawable2dInterface {
   public:
+    /** @brief Construct a LabelledAugmentedPavingDrawable instance. */
     explicit LabelledAugmentedPavingDrawable(LabelledAugmentedPaving const& paving) : _paving(paving) { }
     /** @brief Create a copy of the labelled drawable. */
     LabelledAugmentedPavingDrawable* labelled_clone() const override {
@@ -67,10 +68,12 @@ inline Void draw_to_figure(Figure& figure, LabelledAugmentedPaving const& paving
 }
 /** @brief Render the object in the selected coordinate system. */
 inline Void draw(Figure& figure, LabelledAugmentedPaving const& paving) {
+    /** @brief Perform the labelled geometric operation. */
     draw_to_figure(figure,paving);
 }
 /** @brief Write or compare labelled objects. */
 inline Figure& operator<<(Figure& figure, LabelledAugmentedPaving const& paving) {
+    /** @brief Perform the labelled geometric operation. */
     draw_to_figure(figure,paving); return figure;
 }
 
@@ -80,10 +83,12 @@ inline Void draw_to_figure(LabelledFigure& figure, LabelledAugmentedPaving const
 }
 /** @brief Render the object in the selected coordinate system. */
 inline Void draw(LabelledFigure& figure, LabelledAugmentedPaving const& paving) {
+    /** @brief Perform the labelled geometric operation. */
     draw_to_figure(figure,paving);
 }
 /** @brief Write or compare labelled objects. */
 inline LabelledFigure& operator<<(LabelledFigure& figure, LabelledAugmentedPaving const& paving) {
+    /** @brief Perform the labelled geometric operation. */
     draw_to_figure(figure,paving); return figure;
 }
 

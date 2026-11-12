@@ -50,6 +50,7 @@ class TensorDrawable
     Tensor<N,X> _tensor;
 
   public:
+    /** @brief Construct a TensorDrawable instance. */
     explicit TensorDrawable(Tensor<N,X> const& tensor) : _tensor(tensor) { }
 
     /** @brief Create a copy of the labelled drawable. */

@@ -44,7 +44,9 @@ struct LabelledGrid {
     LabelledGrid(Grid const& grid, RealSpace const& space)
         : _grid(grid), _variables(space.variable_names()) { }
 
+    /** @brief Return the underlying grid. */
     Grid const& euclidean_grid() const { return this->_grid; }
+    /** @brief Return the corresponding named variable space. */
     const RealSpace space() const { return RealSpace(this->_variables); }
 
     /** @brief Write or compare labelled objects. */
@@ -70,8 +72,11 @@ struct LabelledPaving {
     explicit LabelledPaving(LabelledGrid const& grid)
         : LabelledPaving(grid.euclidean_grid(),grid.space()) { }
 
+    /** @brief Access the underlying Euclidean representation. */
     Paving& euclidean_set() { return _set; }
+    /** @brief Access the underlying Euclidean representation. */
     Paving const& euclidean_set() const { return _set; }
+    /** @brief Return the corresponding named variable space. */
     RealSpace space() const { return RealSpace(_variables); }
 
   private:
@@ -88,8 +93,11 @@ struct LabelledBinaryTreePaving {
         : _set(set), _variables(space.variable_names()) { }
     explicit LabelledBinaryTreePaving(LabelledGrid const& lgrid)
         : LabelledBinaryTreePaving(lgrid.euclidean_grid(),lgrid.space()) { }
+    /** @brief Access the underlying Euclidean representation. */
     BinaryTreePaving& euclidean_set() { return this->_set; }
+    /** @brief Access the underlying Euclidean representation. */
     BinaryTreePaving const& euclidean_set() const { return this->_set; }
+    /** @brief Return the corresponding named variable space. */
     const RealSpace space() const { return RealSpace(this->_variables); }
   private:
     BinaryTreePaving _set;
@@ -109,9 +117,13 @@ struct LabelledStateAuxiliaryGrid {
         : _grid(grid), _auxiliary_mapping(auxiliary_mapping)
         , _state_variables(state_space.variable_names()),  _auxiliary_variables(auxiliary_space.variable_names()) { }
 
+    /** @brief Return the underlying grid. */
     Grid const& euclidean_grid() const { return this->_grid; }
+    /** @brief Return the associated function or mapping. */
     EffectiveVectorMultivariateFunction const& auxiliary_mapping() const { return this->_auxiliary_mapping; }
+    /** @brief Return the corresponding named variable space. */
     const RealSpace state_space() const { return RealSpace(this->_state_variables); }
+    /** @brief Return the corresponding named variable space. */
     const RealSpace auxiliary_space() const { return RealSpace(this->_auxiliary_variables); }
 
     /** @brief Write or compare labelled objects. */
