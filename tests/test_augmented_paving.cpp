@@ -31,6 +31,7 @@
 
 #include "labelled/labelled_augmented_paving.hpp"
 #include "labelled/labelled_augmented_paving_draw.hpp"
+#include "logging/test_runner.hpp"
 #include "paving/robdd_paving.hpp"
 #include "rendering/null_rendering.hpp"
 
@@ -205,5 +206,5 @@ int main(int argc, char **argv) {
     ARIADNE_TESTING_ADD_TEST(TestLabelledAugmentedPaving, test_generic_labelled_paving_shared_manager);
     ARIADNE_TESTING_ADD_TEST(TestLabelledAugmentedPaving, test_paving_and_drawing);
     ARIADNE_TESTING_ADD_TEST(TestLabelledAugmentedPaving, test_labelled_grid_and_augmented_operations);
-    return ARIADNE_TESTING_RUN_TESTS_WITH_ARGS(argc, argv);
+    return Ariadne::Testing::run_logging_suite(ariadne_test_suite, argc, argv);
 }

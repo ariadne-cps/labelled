@@ -33,6 +33,7 @@
 #include "drawing/box_draw.hpp"
 #include "labelled/figure.hpp"
 #include "logging/logging.hpp"
+#include "logging/test_runner.hpp"
 #include "rendering/null_rendering.hpp"
 
 #include "ariadne-testing.hpp"
@@ -238,5 +239,5 @@ int main(int argc, char** argv) {
     ARIADNE_TESTING_ADD_TEST(TestLabelledFigure, test_invalid_axes);
     ARIADNE_TESTING_ADD_TEST(TestLabelledFigure, test_style_modifiers);
     ARIADNE_TESTING_ADD_TEST(TestLabelledFigure, test_png_export);
-    return ARIADNE_TESTING_RUN_TESTS_WITH_ARGS(argc, argv);
+    return Ariadne::Testing::run_logging_suite(ariadne_test_suite, argc, argv);
 }

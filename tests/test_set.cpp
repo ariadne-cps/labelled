@@ -29,6 +29,7 @@
 #include "geometry/box.hpp"
 #include "geometry/point.hpp"
 #include "labelled/set.hpp"
+#include "logging/test_runner.hpp"
 #include "numeric/numeric.hpp"
 #include "symbolic/space.hpp"
 
@@ -90,5 +91,5 @@ int main(int argc, char** argv) {
     ARIADNE_TESTING_ADD_TEST(TestLabelledSet, test_set);
     ARIADNE_TESTING_ADD_TEST(TestLabelledSet, test_point_adapter);
     ARIADNE_TESTING_ADD_TEST(TestLabelledSet, test_box_adapter);
-    return ARIADNE_TESTING_RUN_TESTS_WITH_ARGS(argc, argv);
+    return Ariadne::Testing::run_logging_suite(ariadne_test_suite, argc, argv);
 }

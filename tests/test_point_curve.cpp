@@ -31,6 +31,7 @@
 #include "geometry/point.hpp"
 #include "labelled/curve.hpp"
 #include "labelled/point.hpp"
+#include "logging/test_runner.hpp"
 #include "numeric/module.hpp"
 #include "rendering/null_rendering.hpp"
 #include "set/curve.hpp"
@@ -141,5 +142,5 @@ int main(int argc, char** argv) {
     ARIADNE_TESTING_ADD_TEST(TestPoint<FloatDPApproximation>, test_creation);
     ARIADNE_TESTING_ADD_TEST(TestPoint<FloatDPApproximation>, test_projection);
     ARIADNE_TESTING_ADD_TEST(TestCurve, test_creation);
-    return ARIADNE_TESTING_RUN_TESTS_WITH_ARGS(argc, argv);
+    return Ariadne::Testing::run_logging_suite(ariadne_test_suite, argc, argv);
 }
