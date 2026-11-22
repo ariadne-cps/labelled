@@ -40,6 +40,7 @@
 #include "labelled/point.hpp"
 #include "labelled/set.hpp"
 #include "labelled/tensor_drawing.hpp"
+#include "labelled/value.hpp"
 
 #include "ariadne-drawing.hpp"
 #include "ariadne-expression-set.hpp"
