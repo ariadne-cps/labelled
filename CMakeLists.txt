@@ -21,8 +21,8 @@ endif()
 
 
 require_same_dependency_commit(Build CHAINS
-    "build" "expression-set|build" "drawing|build")
+    "build" "expression-set|build" "drawing|build" "paving|build")
 require_same_dependency_commit(Set CHAINS
-    "expression-set|set" "drawing|paving|set")
+    "expression-set|set" "drawing|set" "paving|set")
 
 ariadne_setup_module(labelled)

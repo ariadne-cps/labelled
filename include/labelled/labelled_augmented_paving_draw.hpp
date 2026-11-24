@@ -30,11 +30,47 @@
 #ifndef ARIADNE_REASONING_LABELLED_AUGMENTED_PAVING_DRAW_HPP
 #define ARIADNE_REASONING_LABELLED_AUGMENTED_PAVING_DRAW_HPP
 
-#include "drawing/augmented_paving_draw.hpp"
+#include "drawing/box_draw.hpp"
+#include "paving/augmented_paving.hpp"
+#include "rendering/figure.hpp"
 #include "labelled/figure.hpp"
 #include "labelled/labelled_augmented_paving.hpp"
 
 namespace Ariadne {
+
+// Transitional specialization: the paving graph is drawn here while the
+// legacy LabelledAugmentedPaving type is still provided by Labelled.
+// Never add a paving dependency back to the standalone Drawing module.
+inline Void draw(CanvasInterface& canvas, const Projection2d& projection,
+                 const AugmentedPaving& paving) {
+    const BinaryTreePaving graph = paving.state_auxiliary_paving();
+    for (auto cell = graph.begin(), end = graph.end(); cell != end; ++cell) {
+        Ariadne::draw(canvas, projection, cell->box());
+    }
+}
+
+// Figure owns the drawable's snapshot just as the old Drawing adapter did.
+class LabelledAugmentedPavingEuclideanDrawable final : public Drawable2dInterface {
+  public:
+    explicit LabelledAugmentedPavingEuclideanDrawable(const AugmentedPaving& paving)
+        : _paving(paving) {}
+    LabelledAugmentedPavingEuclideanDrawable* clone() const override {
+        return new LabelledAugmentedPavingEuclideanDrawable(*this);
+    }
+    DimensionType dimension() const override {
+        return _paving.dimension() + _paving.auxiliary_mapping().result_size();
+    }
+    Void draw(CanvasInterface& canvas, const Projection2d& projection) const override {
+        Ariadne::draw(canvas, projection, _paving);
+    }
+
+  private:
+    AugmentedPaving _paving;
+};
+
+inline Void draw_to_figure(Figure& figure, const AugmentedPaving& paving) {
+    figure.draw(LabelledAugmentedPavingEuclideanDrawable(paving));
+}
 
 /** @brief Render the object in the selected coordinate system. */
 inline Void draw(CanvasInterface& canvas, const Variables2d& axes, const LabelledAugmentedPaving& paving) {
