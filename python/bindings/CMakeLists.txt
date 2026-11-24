@@ -11,6 +11,7 @@ target_include_directories(pyariadne-labelled-submodule-obj PRIVATE
     "${PYTHON_COMMON_SOURCE_DIR}/include"
     $<TARGET_PROPERTY:pyariadne-expression_set,INTERFACE_INCLUDE_DIRECTORIES>
     $<TARGET_PROPERTY:pyariadne-drawing,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:pyariadne-paving,INTERFACE_INCLUDE_DIRECTORIES>
 )
 target_link_libraries(pyariadne-labelled-submodule-obj PRIVATE
     pyariadne-python-common
@@ -27,10 +28,15 @@ target_include_directories(pyariadne-labelled INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<TARGET_PROPERTY:pyariadne-expression_set,INTERFACE_INCLUDE_DIRECTORIES>
     $<TARGET_PROPERTY:pyariadne-drawing,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:pyariadne-paving,INTERFACE_INCLUDE_DIRECTORIES>
 )
+# Paving is a direct temporary C++ dependency of legacy Labelled.
+# Its Python registration must also be linked into the composed module;
+# the decoupled Drawing module intentionally no longer provides it.
 target_link_libraries(pyariadne-labelled INTERFACE
     pyariadne-expression_set
     pyariadne-drawing
+    pyariadne-paving
 )
 
 ariadne_add_python_module(
