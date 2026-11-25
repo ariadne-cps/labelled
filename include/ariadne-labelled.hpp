@@ -34,7 +34,6 @@
 #include "labelled/graphics_interface.hpp"
 #include "labelled/labelled.hpp"
 #include "labelled/labelled_augmented_paving.hpp"
-#include "labelled/labelled_augmented_paving_draw.hpp"
 #include "labelled/labelled_grid.hpp"
 #include "labelled/labelled_mapping.hpp"
 #include "labelled/point.hpp"
