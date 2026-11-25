@@ -1,5 +1,5 @@
 /***************************************************************************
- *            labelled/point.tpl.hpp
+ *            src/point.tpl.hpp
  *
  *  Copyright  2026  Luca Geretti
  *
@@ -22,7 +22,7 @@
  *  along with Ariadne Labelled. If not, see <https://www.gnu.org/licenses/>.
  */
 
-/** @file labelled/point.tpl.hpp
+/** @file src/point.tpl.hpp
  *  @brief Template definitions for labelled points.
  */
 

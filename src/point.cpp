@@ -26,7 +26,7 @@
  *  @brief Instantiate labelled point types.
  */
 
-#include "labelled/point.tpl.hpp"
+#include "point.tpl.hpp"
 
 namespace Ariadne {
 
