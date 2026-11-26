@@ -105,39 +105,22 @@ class LabelledAugmentedPaving
     const Mapping auxiliary_function() const;
 
     /** @brief Apply the requested set operation. */
-    Void adjoin(const LabelledAugmentedPaving& other) {
-        ARIADNE_PRECONDITION(this->_state_variables == other._state_variables);
-        this->state_paving().adjoin(static_cast<const PavingInterface&>(other.state_paving()));
-    }
+    Void adjoin(const LabelledAugmentedPaving& other);
     /** @brief Apply the requested set operation. */
-    Void restrict(const LabelledAugmentedPaving& other) {
-        ARIADNE_PRECONDITION(this->_state_variables == other._state_variables);
-        this->state_paving().restrict(static_cast<const PavingInterface&>(other.state_paving()));
-    }
+    Void restrict(const LabelledAugmentedPaving& other);
     /** @brief Apply the requested set operation. */
-    Void remove(const LabelledAugmentedPaving& other) {
-        ARIADNE_PRECONDITION(this->_state_variables == other._state_variables);
-        this->state_paving().remove(static_cast<const PavingInterface&>(other.state_paving()));
-    }
+    Void remove(const LabelledAugmentedPaving& other);
 
     /** @brief Apply the requested set operation. */
-    friend Bool subset(const LabelledAugmentedPaving& set1, const LabelledAugmentedPaving& set2) {
-        ARIADNE_PRECONDITION(set1._state_variables == set2._state_variables);
-        return set1.state_paving().subset(static_cast<const PavingInterface&>(set2.state_paving()));
-    }
+    friend Bool subset(const LabelledAugmentedPaving& set1, const LabelledAugmentedPaving& set2);
     /** @brief Apply the requested set operation. */
-    friend Bool intersect(const LabelledAugmentedPaving& set1, const LabelledAugmentedPaving& set2) {
-        ARIADNE_PRECONDITION(set1._state_variables == set2._state_variables);
-        return set1.state_paving().intersects(static_cast<const PavingInterface&>(set2.state_paving()));
-    }
+    friend Bool intersect(const LabelledAugmentedPaving& set1, const LabelledAugmentedPaving& set2);
 
     /** @brief Create a copy of the labelled drawable. */
-    virtual LabelledAugmentedPaving* clone() const override { return new LabelledAugmentedPaving(*this); }
+    virtual LabelledAugmentedPaving* clone() const override;
 
     /** @brief Write or compare labelled objects. */
-    friend OutputStream& operator<<(OutputStream& os, const LabelledAugmentedPaving& set) {
-        return os << "LabelledAugmentedPaving(" << set.state_paving() << ", state_variables=" << set._state_variables << ", auxiliary_mapping=" << set.auxiliary_mapping().function() << ", auxiliary_variables=" << set._auxiliary_variables << ")";
-    }
+    friend OutputStream& operator<<(OutputStream& os, const LabelledAugmentedPaving& set);
 
   private:
     List<Identifier> _state_variables;

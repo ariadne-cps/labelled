@@ -86,4 +86,37 @@ const LabelledMapping LabelledAugmentedPaving::auxiliary_data() const {
     return this->auxiliary_mapping();
 }
 
+// Legacy labelled paving operations, kept for compatibility.
+
+Void LabelledAugmentedPaving::adjoin(const LabelledAugmentedPaving& other) {
+        ARIADNE_PRECONDITION(this->_state_variables == other._state_variables);
+        this->state_paving().adjoin(static_cast<const PavingInterface&>(other.state_paving()));
+    }
+
+Void LabelledAugmentedPaving::restrict(const LabelledAugmentedPaving& other) {
+        ARIADNE_PRECONDITION(this->_state_variables == other._state_variables);
+        this->state_paving().restrict(static_cast<const PavingInterface&>(other.state_paving()));
+    }
+
+Void LabelledAugmentedPaving::remove(const LabelledAugmentedPaving& other) {
+        ARIADNE_PRECONDITION(this->_state_variables == other._state_variables);
+        this->state_paving().remove(static_cast<const PavingInterface&>(other.state_paving()));
+    }
+
+Bool subset(const LabelledAugmentedPaving& set1, const LabelledAugmentedPaving& set2) {
+        ARIADNE_PRECONDITION(set1._state_variables == set2._state_variables);
+        return set1.state_paving().subset(static_cast<const PavingInterface&>(set2.state_paving()));
+    }
+
+Bool intersect(const LabelledAugmentedPaving& set1, const LabelledAugmentedPaving& set2) {
+        ARIADNE_PRECONDITION(set1._state_variables == set2._state_variables);
+        return set1.state_paving().intersects(static_cast<const PavingInterface&>(set2.state_paving()));
+    }
+
+LabelledAugmentedPaving* LabelledAugmentedPaving::clone() const { return new LabelledAugmentedPaving(*this); }
+
+OutputStream& operator<<(OutputStream& os, const LabelledAugmentedPaving& set) {
+        return os << "LabelledAugmentedPaving(" << set.state_paving() << ", state_variables=" << set._state_variables << ", auxiliary_mapping=" << set.auxiliary_mapping().function() << ", auxiliary_variables=" << set._auxiliary_variables << ")";
+    }
+
 } // namespace Ariadne
