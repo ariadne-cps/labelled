@@ -31,7 +31,6 @@
 
 #include "labelled/labelled.hpp"
 #include "labelled/value.hpp"
-#include "logging/test_runner.hpp"
 #include "symbolic/space.hpp"
 
 #include "ariadne-testing.hpp"
@@ -95,5 +94,5 @@ int main(int argc, char** argv) {
     ARIADNE_TESTING_ADD_TEST(TestLabelledValue, test_dimension_validation);
     ARIADNE_TESTING_ADD_TEST(TestLabelledValue, test_arbitrary_metadata);
     ARIADNE_TESTING_ADD_TEST(TestLabelledValue, test_labelled_printing);
-    return Ariadne::Testing::run_logging_suite(ariadne_test_suite, argc, argv);
+    return Ariadne::Testing::run_suite(ariadne_test_suite, argc, argv);
 }

@@ -21,10 +21,7 @@ endif()
 
 
 require_same_dependency_commit(Build CHAINS
-    "build" "symbolic|build" "function|build" "utility|build" "logging|build")
+    "build" "symbolic|build" "function|build" "utility|build")
 require_same_dependency_commit(Function CHAINS
     "function" "symbolic|function")
-require_same_dependency_commit(Logging CHAINS
-    "logging|utility" "utility")
-
 ariadne_setup_module(labelled)
