@@ -63,12 +63,14 @@ class LabelledValue {
     const Metadata& labels() const { return _metadata; }
 
     const RealSpace& space() const
-        requires std::same_as<Metadata, RealSpace> {
+        requires std::same_as<Metadata, RealSpace>
+    {
         return _metadata;
     }
 
     auto variables() const
-        requires requires(const Metadata& labels) { labels.variables(); } {
+        requires requires(const Metadata& labels) { labels.variables(); }
+    {
         return _metadata.variables();
     }
 };

@@ -1,14 +1,11 @@
-if(NOT TARGET expression_set)
-    ariadne_add_submodule(expression-set)
+if(NOT TARGET symbolic)
+    ariadne_add_submodule(symbolic)
 endif()
 
-if(NOT TARGET drawing)
-    ariadne_add_submodule(drawing)
+if(NOT TARGET function)
+    ariadne_add_submodule(function)
 endif()
 
-# Temporary: paving remains a direct dependency of legacy labelled adapters.
-# The standalone Drawing dependency must never import paving.
-if(NOT TARGET paving)
-    ariadne_add_submodule(paving)
+if(NOT TARGET utility)
+    ariadne_add_submodule(utility)
 endif()
-

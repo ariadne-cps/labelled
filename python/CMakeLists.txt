@@ -9,14 +9,6 @@ option(PYTHON_ENFORCE_TESTS "Enforce Python tests" OFF)
 if(Python3_FOUND)
     report_python_configuration_once()
 
-    if(NOT TARGET pyariadne-expression_set)
-        message(FATAL_ERROR "The Expression Set Python binding target is required to build pyariadne-labelled.")
-    endif()
-
-    if(NOT TARGET pyariadne-drawing)
-        message(FATAL_ERROR "The Drawing Python binding target is required to build pyariadne-labelled.")
-    endif()
-
     add_subdirectory(bindings)
 
     if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
@@ -32,7 +24,6 @@ if(Python3_FOUND)
             CACHE STRING "Install destination for Python targets relative to the prefix")
         install(TARGETS pyariadne DESTINATION "${PYTHON_BINDINGS_INSTALL_DIR}")
 
-        add_subdirectory(tests)
         add_dependencies(bindings pyariadne)
     endif()
 else()

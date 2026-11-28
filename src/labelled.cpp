@@ -1,5 +1,5 @@
 /***************************************************************************
- *            src/point.cpp
+ *            src/labelled.cpp
  *
  *  Copyright  2026  Luca Geretti
  *
@@ -22,20 +22,8 @@
  *  along with Ariadne Labelled. If not, see <https://www.gnu.org/licenses/>.
  */
 
-/** @file src/point.cpp
- *  @brief Instantiate labelled point types.
+/** @file src/labelled.cpp
+ *  @brief Translation unit for the header-only labelled core.
  */
 
-#include "point.tpl.hpp"
-
-namespace Ariadne {
-
-template<>
-String class_name<LabelledPoint<Real>>() { return "LabelledPoint<Real>"; }
-template<>
-String class_name<LabelledPoint<FloatDPApproximation>>() { return "LabelledPoint<FloatDPApproximation>"; }
-
-template class LabelledPoint<Real>;
-template class LabelledPoint<FloatDPApproximation>;
-
-} // namespace Ariadne
+#include "ariadne-labelled.hpp"
