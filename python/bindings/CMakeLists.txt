@@ -9,11 +9,15 @@ add_library(pyariadne-labelled-submodule-obj OBJECT
 target_include_directories(pyariadne-labelled-submodule-obj PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
     "${PYTHON_COMMON_SOURCE_DIR}/include"
+    $<TARGET_PROPERTY:pyariadne-symbolic,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:pyariadne-function,INTERFACE_INCLUDE_DIRECTORIES>
 )
 target_link_libraries(pyariadne-labelled-submodule-obj PRIVATE
     pyariadne-python-common
     pybind11::module
     labelled
+    pyariadne-symbolic
+    pyariadne-function
 )
 set_target_properties(pyariadne-labelled-submodule-obj PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
@@ -23,6 +27,12 @@ target_sources(pyariadne-labelled INTERFACE
 )
 target_include_directories(pyariadne-labelled INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<TARGET_PROPERTY:pyariadne-symbolic,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:pyariadne-function,INTERFACE_INCLUDE_DIRECTORIES>
+)
+
+target_link_libraries(pyariadne-labelled INTERFACE
+    pyariadne-symbolic pyariadne-function
 )
 
 ariadne_add_python_module(

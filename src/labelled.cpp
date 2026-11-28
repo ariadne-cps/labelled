@@ -27,3 +27,11 @@
  */
 
 #include "ariadne-labelled.hpp"
+
+namespace Ariadne {
+
+OutputStream& operator<<(OutputStream& os, const Labelled& labelled) {
+    return os << labelled.space();
+}
+
+} // namespace Ariadne

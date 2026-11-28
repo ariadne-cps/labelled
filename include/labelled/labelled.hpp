@@ -48,6 +48,9 @@ class Labelled {
     RealSpace _space;
 };
 
+/** @brief Write or compare labelled objects. */
+OutputStream& operator<<(OutputStream& os, const Labelled& labelled);
+
 } // namespace Ariadne
 
 #endif

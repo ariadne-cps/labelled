@@ -9,6 +9,14 @@ option(PYTHON_ENFORCE_TESTS "Enforce Python tests" OFF)
 if(Python3_FOUND)
     report_python_configuration_once()
 
+    if(NOT TARGET pyariadne-symbolic)
+        message(FATAL_ERROR "The Symbolic Python binding target is required to build pyariadne-labelled.")
+    endif()
+
+    if(NOT TARGET pyariadne-function)
+        message(FATAL_ERROR "The Function Python binding target is required to build pyariadne-labelled.")
+    endif()
+
     add_subdirectory(bindings)
 
     if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
