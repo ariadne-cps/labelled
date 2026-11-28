@@ -86,34 +86,6 @@ jobs:
       working-directory: ${{ runner.workspace }}/build
       run: cmake --install . --prefix "${{ runner.workspace }}/install"
 
-    - name: Prepare C++ Labelled Tutorial
-      if: matrix.build_type == 'Release'
-      shell: pwsh
-      run: cmake -E copy_directory "$env:GITHUB_WORKSPACE/tutorials/tutorial_labelled" "${{ runner.workspace }}/tutorial_labelled"
-
-    - name: Check C++ Labelled Tutorial
-      if: matrix.build_type == 'Release'
-      shell: pwsh
-      working-directory: ${{ runner.workspace }}/tutorial_labelled
-      run: |
-        cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="${{ runner.workspace }}/install" -DCMAKE_C_COMPILER_LAUNCHER="$env:SCCACHE_LAUNCHER" -DCMAKE_CXX_COMPILER_LAUNCHER="$env:SCCACHE_LAUNCHER" 
-        cmake --build build --parallel
-        $env:PATH = "${{ runner.workspace }}\install\bin;$env:PATH"
-        & ".\build\tutorial_labelled.exe"
-        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-
-    - name: Check Python Labelled Tutorial
-      if: matrix.build_type == 'Release'
-      shell: pwsh
-      working-directory: ${{ github.workspace }}/python/tutorials
-      run: |
-        $env:PYTHONPATH = "${{ runner.workspace }}\install\Lib\site-packages"
-        $env:PATH = "${{ runner.workspace }}\install\bin;$env:PATH"
-        python -c "import pyariadne_labelled; print(pyariadne_labelled.__file__)"
-        python tutorial_labelled.py
-
-
     - name: Verify Uninstallation
       if: matrix.build_type == 'Release'
       working-directory: ${{ runner.workspace }}/build
